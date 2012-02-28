@@ -78,15 +78,9 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
         if (!marker.isVisible()) {
             return true;
         }
-        if(_ctx != null) {
-        	//String snppt;
-        	//if (item.getSnippet() == null)
-        	//	snppt = "";
-        	//else
-        	//	snppt = item.getSnippet();
-        	
+        if(_ctx != null)
         	_ctx.getPanel().display(item.getPoint(), item.getTitle(), item.getSnippet(), item.getGazID());
-        } else
+        else
         	_ts.getPanel().display(item.getPoint(), item.getTitle(), item.getSnippet(), item.getGazID());
         
         

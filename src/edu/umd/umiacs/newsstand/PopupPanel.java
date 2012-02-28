@@ -86,15 +86,16 @@ public class PopupPanel extends Overlay {
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        //if (alignTop) {
-        //    lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        //    lp.setMargins(TEXT_MARGIN, 0, TEXT_MARGIN, (_mapView.getHeight() - marker_pos.y) + MARKER_HEIGHT + POPUP_OFFSET);
-        //}
-        //else {
-        	mAlignTop = false;
+        if (alignTop) {
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            //lp.setMargins(TEXT_MARGIN, 0, TEXT_MARGIN, (_mapView.getHeight() - marker_pos.y) + MARKER_HEIGHT + POPUP_OFFSET);
+            lp.setMargins(TEXT_MARGIN, marker_pos.y - 130, TEXT_MARGIN, 0);
+        }
+        else {
+        	//mAlignTop = false;
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             lp.setMargins(TEXT_MARGIN, marker_pos.y + POPUP_OFFSET, TEXT_MARGIN, 0);
-        //}
+        }
 
         hide();
 
@@ -179,7 +180,7 @@ public class PopupPanel extends Overlay {
 
         mGazId = gaz_id;
 
-        show(pt.y*2>_mapView.getHeight(), pt);
+        show((pt.y * 2 >_mapView.getHeight()), pt);
     }
 
     // Naive unescaping of HTML...
