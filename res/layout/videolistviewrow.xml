@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:layout_width="match_parent"
+	android:background="@android:color/black"
+	android:layout_height="102dp">
+	<ImageView android:id="@+id/videoimage" android:layout_width="100dp"
+		android:width="100dp" android:height="120dp"
+		android:paddingRight="5dp" android:layout_height="wrap_content"
+		android:paddingTop="5dp"/>
+	<LinearLayout android:id="@+id/linearLayout1"
+		android:orientation="vertical" android:layout_width="match_parent"
+		android:weightSum="1" android:layout_height="102dp">
+		<TextView android:text="TextView" android:layout_height="wrap_content"
+			android:id="@+id/videotitle" android:layout_width="match_parent"
+			android:textColor="#0000FF"
+			android:singleLine="false"></TextView>
+		<TextView android:text="TextView" android:id="@+id/videoduration"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:textColor="@android:color/black"
+			android:textSize="10sp"></TextView>
+		<TextView android:text="TextView" android:id="@+id/videotime"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:textColor="@android:color/black"
+			android:textSize="10sp"></TextView>
+		<TextView android:text="TextView" android:id="@+id/videodomain"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:textColor="#008000"
+			android:textSize="10sp"></TextView>
+	</LinearLayout>
+</LinearLayout>

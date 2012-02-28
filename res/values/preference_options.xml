@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="layers">
+        <item>Icon Layer</item>
+        <item>Location Layer</item>
+        <item>People Layer</item>
+        <item>Disease Layer</item>
+    </string-array>
+    <string-array name="layerValues">
+        <item>3</item>
+        <item>4</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array><string-array name="topics">
+        <item>All</item>
+        <item>General</item>
+        <item>Business</item>
+        <item>SciTech</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Sports</item>
+    </string-array>
+    <string-array name="topicValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="images">
+        <item>No filter</item>
+        <item>At least 1 image</item>
+        <item>At least 10 images</item>
+        <item>At least 50 images</item>
+    </string-array><string-array name="imageValues">
+        <item>0</item>
+        <item>1</item>
+        <item>10</item>
+        <item>50</item>
+    </string-array><string-array name="videos">
+        <item>No filter</item>
+        <item>At least 1 video</item>
+        <item>At least 5 videos</item>
+        <item>At least 10 videos</item>
+    </string-array>
+    <string-array name="videoValues">
+        <item>0</item>
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="ranks">
+        <item>Most Recent</item>
+        <item>Most Reputable</item>
+        <item>Real Time</item>
+        <item>Twitter</item>
+    </string-array>
+    <string-array name="ranksValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="one_handed">
+        <item>Neutral</item>
+        <item>left</item>
+        <item>right</item>
+    </string-array>
+    <string-array name="one_handedValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    
+    
+    
+    
+    
+</resources>

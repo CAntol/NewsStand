@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" android:key="sources" android:title="sources">
+    <PreferenceCategory android:title="All Sources">
+        <ListPreference android:title="Select Rank" android:entries="@array/ranks" android:key="rank" android:entryValues="@array/ranksValues"></ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Feeds">
+        <CheckBoxPreference android:title="New York Times" android:key="new_york_time" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="washington_post" android:title="Washington Post" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="usa_today" android:title="USA Today" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="wall_street_journal" android:title="Wall Street Journal" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="la_times" android:title="LA Times" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="boston_globe" android:title="Boston Globe" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="miami_herald" android:title="Miami Herald" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="atlanta" android:title="Atlanta" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="guardian" android:title="Guardian" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="times_online" android:title="Times Online" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="haaretz" android:title="Haaretz" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="irish_independent" android:title="Irish Independent" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="uk_independent" android:title="UK Independent" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="iht" android:title="IHT" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="reuters" android:title="Reuters" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="associated_press" android:title="Associated Press" android:defaultValue="false"></CheckBoxPreference>
+        <CheckBoxPreference android:key="times_of_india" android:title="Times of India" android:defaultValue="false"></CheckBoxPreference>
+ 	 </PreferenceCategory>
+ 	<PreferenceCategory android:title="Countries">
+ 		<CheckBoxPreference android:key="australia" android:title="Australia" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="canada" android:title="Canada" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="india" android:title="India" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="iran" android:title="Iran" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="ireland" android:title="Ireland" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="israel" android:title="Israel" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="japan" android:title="Japan" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="mexico" android:title="Mexico" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="new_zealand" android:title="New Zealand" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="russia" android:title="Russia" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="united_kingdom" android:title="United Kingdom" android:defaultValue="false"></CheckBoxPreference>
+ 		<CheckBoxPreference android:key="united_states" android:title="United States" android:defaultValue="false"></CheckBoxPreference>
+    </PreferenceCategory>
+    
+</PreferenceScreen>

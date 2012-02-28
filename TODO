@@ -1,0 +1,28 @@
+Done
+- Get Auto-Refresh working
+- Get slider working
+- Fix crashes when panning repeatedly
+- Implement Topic selection in Settings window
+- Search
+  - Added search functionality when tapping menu/search
+  - Added search functionality when tapping search key
+  - Added voice search
+  - Added display of searched term
+  - Reposition display of searched term
+  - Allow user to clear search
+
+Todo
+- Find appropriate bubbles to use when tapping on cluster markers
+- Support viewing images for a story
+- Implement Search functionality
+  - Search menu option and Search button should bring up search dialog 
+    (http://developer.android.com/guide/topics/search/search-dialog.html)
+- Implement Locate functionality
+- Implement Sources dialog
+- Implement Home functionality
+- Implement Top Stories mode.
+
+Notes for building release version:
+- Change NewsStandMapView API Key from DEBUG to PROD in main.xml
+- Remove android:debuggable attribute from AndroidManifest.xml
+- Go to File > Export > Export Android Application and follow instructions

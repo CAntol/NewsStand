@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/imageAll" android:title="All"></item>
+    <item android:id="@+id/imageMark" android:title="Mark"></item>
+    <item android:id="@+id/imageUnique" android:title="Unique"></item>
+</menu>

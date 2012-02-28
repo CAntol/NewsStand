@@ -1,0 +1,20 @@
+# built application files
+*.apk
+*.ap_
+
+# Java class files
+*.class
+
+# generated GUI files
+*R.java
+
+.project
+bin/**
+.settings/**
+.classpath
+
+# VIM files
+*.swp
+
+# key/certificate keystores
+*.keystore

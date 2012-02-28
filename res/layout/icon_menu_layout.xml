@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <com.android.internal.view.menu.IconMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:rowHeight="65dip"
+    android:maxRows="2"
+    android:maxItemsPerRow="6" >
+    <item android:title="info" android:icon="@drawable/ic_menu_info" android:id="@+id/info1"/>
+<item android:title="Search" android:icon="@drawable/ic_menu_search" android:id="@+id/search1"/>
+<item android:title="Settings"
+    android:id="@+id/settings1" 
+    android:icon="@drawable/ic_menu_preferences" />
+<item android:title="Sources"
+    android:id="@+id/sources1" android:icon="@drawable/ic_menu_source"/>
+<item android:title="Mode" android:icon="@drawable/ic_menu_mode1" android:id="@+id/mode1"/>
+<item android:title="Top Stories"
+    android:id="@+id/top_stories1" android:icon="@drawable/ic_menu_topstory"/>
+    </com.android.internal.view.menu.IconMenuView>

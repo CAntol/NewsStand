@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="preferences" android:title="preferences">
+  <PreferenceCategory android:title="Layers">
+    <ListPreference android:title="Select Layer"
+                    android:key="layer"
+                    android:summary="Select the type of visible layer to display"
+                    android:entries="@array/layers" android:entryValues="@array/layerValues"/>
+    
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Topics">
+    <CheckBoxPreference android:title="All Topics"
+                        android:key="all_topics" 
+                        android:defaultValue="true"
+                        />
+    <CheckBoxPreference android:title="General"
+                        android:key="general_topics"
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+    <CheckBoxPreference android:title="Business"
+                        android:key="business_topics" 
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+    <CheckBoxPreference android:title="SciTech"
+                        android:key="scitech_topics" 
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+    <CheckBoxPreference android:title="Entertainment"
+                        android:key="entertainment_topics" 
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+    <CheckBoxPreference android:title="Health"
+                        android:key="health_topics" 
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+    <CheckBoxPreference android:title="Sports"
+                        android:key="sports_topics" 
+                        android:defaultValue="false"
+                        android:dependency="all_topics"
+                        />
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Media">
+    <ListPreference android:title="Filter Images" 
+                    android:key="images"
+                    android:summary="Select number of images to display"
+                    android:entries="@array/images" android:entryValues="@array/imageValues"/>
+    <ListPreference android:title="Filter Videos" 
+                    android:key="videos"
+                    android:summary="Select number of videos to display"
+                    android:entries="@array/videos" android:entryValues="@array/videoValues"/>
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Home">
+      <CheckBoxPreference android:title="Set Home" 
+      android:defaultValue="false" android:key="set_home"></CheckBoxPreference>
+  </PreferenceCategory>
+  <PreferenceCategory android:title="One-Handed Preference">
+      <ListPreference android:entries="@array/one_handed" android:entryValues="@array/one_handedValues" android:title="one handed preference" android:key="one_handed"></ListPreference>
+  </PreferenceCategory>
+  
+</PreferenceScreen>

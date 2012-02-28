@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="edu.umd.umiacs.newsstand"
+      android:versionCode="1"
+      android:versionName="1.0">
+      <!-- remove android:theme to restore title + notification bar -->
+    <application 
+        android:icon="@drawable/icon_world" 
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        android:debuggable="true">
+        <uses-library android:name="com.google.android.maps" />
+        <activity android:name=".NewsStand"
+                  android:label="@string/app_name"
+                  android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
+        </activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TopStories"/>
+        <activity android:name=".ClusterViewer" />
+        <activity android:name=".NewsStandWebView"/>
+        <activity android:name=".ImageGridView"/>
+        <activity android:name=".VideoListActivity"></activity>
+        <activity android:name=".HTMLWebView"></activity>
+        <activity android:name=".ImageCoverFlowActivity"></activity>
+        <activity android:name=".Sources"></activity>
+
+    </application>
+    <uses-sdk android:minSdkVersion="8" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+</manifest> 
