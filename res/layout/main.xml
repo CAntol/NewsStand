@@ -56,11 +56,18 @@
 	        android:id="@+id/mapview"
 	        android:layout_width="fill_parent"
 	        android:clickable="true"
-	        android:apiKey="0M-bdp7P5_YvRA4mEg4oprDMrnb-kMl93mDmu7A"
+	        android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
 	        android:layout_alignParentRight="true"
 	        android:layout_height="440dp"/>
  	    <!-- with titlebar and notificationbar, layout_height should be 380 -->
-	        <!-- DEBUG android:apiKey="0EVwj7uHiufYj8esOOP16sVYsWdeHgznxrHZ-ww"
+	        <!-- 
+	        	UMIACS:
+	        		0M-bdp7P5_YvRA4mEg4oprDMrnb-kMl93mDmu7A
+	        	LAPTOP:
+	        		0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg
+	        	
+	        	old:
+	        	DEBUG android:apiKey="0EVwj7uHiufYj8esOOP16sVYsWdeHgznxrHZ-ww"
 	             PROD  android:apiKey="0tFo30MjqLT5s2jVzmkQzfL9dm4XXuUM-ope0Iw" -->
 	    <LinearLayout
 	        android:id="@+id/search_options"
