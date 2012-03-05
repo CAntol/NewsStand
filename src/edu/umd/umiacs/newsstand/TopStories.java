@@ -315,8 +315,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		} catch (Exception ee) {
 			// if we have a problem, simply return null
 			//TODO - remove temp code
-			Toast.makeText(this, "Error fetching markers",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "Error fetching markers",
+			//		Toast.LENGTH_SHORT).show();
 			return null;
 			
 			////////////TEMP TEST CODE ////////////////

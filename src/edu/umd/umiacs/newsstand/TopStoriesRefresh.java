@@ -192,8 +192,9 @@ public class TopStoriesRefresh implements Runnable {
 			return theMarkerFeedHandler.getFeed();
 		} catch (Exception ee) {
 			// if we have a problem, simply return null
-						Toast.makeText(_ctx, "Error fetching markers",
-								Toast.LENGTH_SHORT).show();
+						//Toast.makeText(_ctx, "Error fetching markers",
+								//Toast.LENGTH_SHORT).show();
+			
 				return null;
 				
 			////////////TEMP TEST CODE ////////////////
@@ -239,7 +240,7 @@ public class TopStoriesRefresh implements Runnable {
 				}
 				mNumExecuting--;
 			} else {
-				Toast.makeText(_ctx, "Null marker feed...", Toast.LENGTH_SHORT).show();
+				Toast.makeText(_ctx, "Unable to access internet", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

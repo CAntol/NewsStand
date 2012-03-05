@@ -12,6 +12,13 @@ Done
   - Allow user to clear search
 
 Todo
+-	Top Stories Mode popup panel not displaying text within the panel
+-	Top Stories Mode seekbar size + ball gets cutoff on edges
+-	Top Stories Mode highlighted black when scrolling
+-	Top Stories Mode menu button brings up old settings (deprecated)
+
+
+
 - Find appropriate bubbles to use when tapping on cluster markers
 - Support viewing images for a story
 - Implement Search functionality
