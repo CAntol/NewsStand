@@ -181,9 +181,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.main_menu, menu);
+        //return true;
+    	return false;
     }
 
     @Override

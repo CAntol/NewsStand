@@ -4,7 +4,7 @@
     android:layout_height="fill_parent">
     <TextView
         android:id="@+id/headline"
-        android:text="Cincinnati inmate executed"
+        android:text=""
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="14dip"
@@ -12,10 +12,11 @@
 
     <TextView
         android:id="@+id/snippet"
-        android:text="LUCASVILLE, Ohio (AP) -- Ohio has executed a man who was waiting to be sentenced for ..." 
+        android:text="                                                                  
+                                                       " 
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_below="@+id/headline"
+        android:layout_below="@id/headline"
         android:textSize="12dip" 
         android:textColor="#ddd" />
                 

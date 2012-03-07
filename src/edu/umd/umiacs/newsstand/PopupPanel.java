@@ -14,8 +14,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -80,6 +82,7 @@ public class PopupPanel extends Overlay {
     public void show(boolean alignTop, Point marker_pos ) {
         mAlignTop = alignTop;
         mArrowOffset = marker_pos.x;
+        int binder = _ctx == null ? 100 : 110;
 
         // Show text view
         RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(
@@ -89,7 +92,7 @@ public class PopupPanel extends Overlay {
         if (alignTop) {
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             //lp.setMargins(TEXT_MARGIN, 0, TEXT_MARGIN, (_mapView.getHeight() - marker_pos.y) + MARKER_HEIGHT + POPUP_OFFSET);
-            lp.setMargins(TEXT_MARGIN, marker_pos.y - 130, TEXT_MARGIN, 0);
+            lp.setMargins(TEXT_MARGIN, marker_pos.y - binder, TEXT_MARGIN, 0);
         }
         else {
         	//mAlignTop = false;
@@ -109,6 +112,7 @@ public class PopupPanel extends Overlay {
         else {
             _mapView.getOverlays().add(this);
         }
+        
     }
 
     @Override
@@ -157,7 +161,16 @@ public class PopupPanel extends Overlay {
 
     public void display(GeoPoint marker_loc, String headline, String snippet, String gaz_id) {
 
-        Point pt=_mapView.getProjection().toPixels(marker_loc, null);
+    	Point pt=_mapView.getProjection().toPixels(marker_loc, null);
+    	
+    	//depends on original map coordinate, not location on screen
+    	boolean alignTop = pt.y * 2 >_mapView.getHeight();
+    	
+        if (_ts != null) {
+        	int listHeight = _ts.getListView().getHeight();
+        	//pt = new Point(pt.x, pt.y + listHeight);
+        }
+        	
 
         View view = getView();
 
@@ -180,7 +193,7 @@ public class PopupPanel extends Overlay {
 
         mGazId = gaz_id;
 
-        show((pt.y * 2 >_mapView.getHeight()), pt);
+        show(alignTop, pt);
     }
 
     // Naive unescaping of HTML...
