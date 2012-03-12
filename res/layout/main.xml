@@ -56,7 +56,7 @@
 	        android:id="@+id/mapview"
 	        android:layout_width="fill_parent"
 	        android:clickable="true"
-	        android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
+	        android:apiKey="0M-bdp7P5_YvRA4mEg4oprDMrnb-kMl93mDmu7A"
 	        android:layout_alignParentRight="true"
 	        android:layout_height="440dp"/>
  	    <!-- with titlebar and notificationbar, layout_height should be 380 -->
