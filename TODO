@@ -1,11 +1,18 @@
 Done
 	--Chris--
+	2/27 - 3/5
 - Fix crashing when no internet access
 - Design seekbar to match iphone version
 - Fix crash on clicking an icon
+	3/5 - 3/7
 - Top Stories popup panel displaying correctly
 - Top Stories Mode seekbar size increase + thumb cutoff
 - remove Top Stories menu buttons
+	3/12
+- remove black highlighting when scrolling on top stories mode
+- Hide PopupPanel when moving map to new location
+- PopupPanel always hugging left side, needs to always extend to marker
+- Implement/update Local functionality
 
 	--Previous--
 - Get Auto-Refresh working
@@ -22,13 +29,12 @@ Done
 
 Todo
 	--Chris--
--	Hide PopupPanel when moving map to new location
--	PopupPanel always hugging left side, needs to center over icon
--	Top Stories Mode highlighted black when scrolling
--	Implement/update Locate and Local functionality
 -	Map disappearing sometimes, figure out why (clear data to restore) -> log.txt
--	Search not working, displaying search query over icons
+-	Search not working, displaying search query over bottom icons
 -	Populate snippet
+-	Top Stories image viewer
+-	Report Error page redirect
+-	Determine if Home functionality is correct
 
 	--Previous--
 - Find appropriate bubbles to use when tapping on cluster markers

@@ -261,6 +261,9 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	}
 
 	public void updateMapView(String cluster_id) {
+		//hides popup panel when moving to new location
+		if (_mPanel != null && _mRefresh != null)
+			_mPanel.hide();
 		_mRefresh.setClusterID(cluster_id);
 		
 	}

@@ -49,8 +49,7 @@ public class TopStoriesMapView extends MapView{
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		if (_ctx.getPanel() == null || _refresh == null) {
 			return super.onInterceptTouchEvent(ev);
-		}
-		else {
+		} else {
 			_ctx.getPanel().hide();
 		}
 

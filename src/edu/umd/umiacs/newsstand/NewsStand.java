@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -61,6 +63,10 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	private Context getContext() {
+		return this;
 	}
 	
 	@Override
@@ -312,21 +318,26 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			}
 			
 		});
-		//		mButtonMode = (ImageButton) findViewById(R.id.buttonMode);
-		//		mButtonMode.setOnClickListener(new OnClickListener(){
+		mButtonMode = (ImageButton) findViewById(R.id.buttonMode);
+		mButtonMode.setOnClickListener(new OnClickListener(){
 		
-		//			@Override
-		//			public void onClick(View v) {
-		//				//TODO - 
-		//			}
+		//	@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
+			}
 		
-		//		});
+		});
 		
 		mButtonTopStory = (ImageButton) findViewById(R.id.buttonTopStory);
 		mButtonTopStory.setOnClickListener(new OnClickListener(){
 			
 			@Override
 			public void onClick(View v) {
+				
+				//hide any open popup panel
+				if (mPanel != null && mRefresh != null)
+					mPanel.hide();
+				
 				mMapView.updateMapWindow();
 				Intent k = new Intent(v.getContext(), TopStories.class);
 				startActivity(k);

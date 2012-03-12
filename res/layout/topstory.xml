@@ -10,7 +10,8 @@
 			android:scrollbarAlwaysDrawVerticalTrack="true" android:divider="@android:color/darker_gray"
 			android:background="@android:color/white" android:dividerHeight="0.5sp"
 			android:layout_below="@+id/topStoryView"
-			android:layout_alignParentBottom="true">
+			android:layout_alignParentBottom="true"
+			android:cacheColorHint="#00000000">
 		</edu.umd.umiacs.newsstand.TopStoriesListView>
 		<edu.umd.umiacs.newsstand.TopStoriesMapView
 			android:clickable="true" android:layout_width="fill_parent"
