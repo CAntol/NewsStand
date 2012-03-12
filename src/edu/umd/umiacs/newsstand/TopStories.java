@@ -181,9 +181,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.main_menu, menu);
+        //return true;
+    	return false;
     }
 
     @Override
@@ -260,6 +261,9 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	}
 
 	public void updateMapView(String cluster_id) {
+		//hides popup panel when moving to new location
+		if (_mPanel != null && _mRefresh != null)
+			_mPanel.hide();
 		_mRefresh.setClusterID(cluster_id);
 		
 	}
@@ -315,8 +319,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		} catch (Exception ee) {
 			// if we have a problem, simply return null
 			//TODO - remove temp code
-			Toast.makeText(this, "Error fetching markers",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "Error fetching markers",
+			//		Toast.LENGTH_SHORT).show();
 			return null;
 			
 			////////////TEMP TEST CODE ////////////////

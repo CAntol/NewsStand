@@ -7,7 +7,10 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -108,11 +111,33 @@ public class NewsStandMapView extends MapView {
         // do : telnet localhost 5554 , then do geo fix 32.15 52.34
         
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        if (lastKnownLocation == null)
-        	return;
+        if (lastKnownLocation == null) {
+        	lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        	if (lastKnownLocation != null) {
+        		goToLocation(lastKnownLocation);
+                mapController.setZoom(14);
+        	}
+        	
+        	//here we use GPS to get current location or use less accurate means
+        	locationManager = (LocationManager) _ctx.getSystemService(Context.LOCATION_SERVICE);
 
-        goToLocation(lastKnownLocation);
-        mapController.setZoom(14);
+            LocationListener locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                	goToLocation(location);
+                    mapController.setZoom(14);
+                }
+                public void onProviderDisabled(String provider) {
+                	Toast.makeText(_ctx, "You must first enable Location Services", Toast.LENGTH_SHORT).show();
+                }
+                public void onProviderEnabled(String provider) {}
+                public void onStatusChanged(String provider, int status, Bundle extras) {}
+            };
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.removeUpdates(locationListener);
+        } else {
+        	goToLocation(lastKnownLocation);
+            mapController.setZoom(14);
+        }
     }
 
     public void goToLocation(Location loc) {

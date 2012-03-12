@@ -14,8 +14,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -77,9 +79,13 @@ public class PopupPanel extends Overlay {
         return(popup);
     }
 
-    public void show(boolean alignTop, Point marker_pos ) {
+    public void show(boolean alignTop, Point marker_pos) {
         mAlignTop = alignTop;
         mArrowOffset = marker_pos.x;
+        int binder = _ctx == null ? 100 : 110;
+        
+        int rectSide;
+       rectSide = TEXT_MARGIN;
 
         // Show text view
         RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(
@@ -89,12 +95,12 @@ public class PopupPanel extends Overlay {
         if (alignTop) {
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             //lp.setMargins(TEXT_MARGIN, 0, TEXT_MARGIN, (_mapView.getHeight() - marker_pos.y) + MARKER_HEIGHT + POPUP_OFFSET);
-            lp.setMargins(TEXT_MARGIN, marker_pos.y - 130, TEXT_MARGIN, 0);
+            lp.setMargins(rectSide, marker_pos.y - binder, rectSide, 0);
         }
         else {
         	//mAlignTop = false;
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            lp.setMargins(TEXT_MARGIN, marker_pos.y + POPUP_OFFSET, TEXT_MARGIN, 0);
+            lp.setMargins(rectSide, marker_pos.y + POPUP_OFFSET, rectSide, 0);
         }
 
         hide();
@@ -109,6 +115,7 @@ public class PopupPanel extends Overlay {
         else {
             _mapView.getOverlays().add(this);
         }
+        
     }
 
     @Override
@@ -117,7 +124,7 @@ public class PopupPanel extends Overlay {
             View v = getView();
 
             //  Setup the info window with the right size & location
-            int width = v.getWidth() + 2 * RECT_MARGIN;
+            int width = mapView.getWidth() - TEXT_MARGIN;//v.getWidth() + 2 * RECT_MARGIN;
             int height = v.getHeight() + 2 * RECT_MARGIN;
             int left = v.getLeft() - RECT_MARGIN;
             int top = v.getTop() - RECT_MARGIN;
@@ -157,7 +164,16 @@ public class PopupPanel extends Overlay {
 
     public void display(GeoPoint marker_loc, String headline, String snippet, String gaz_id) {
 
-        Point pt=_mapView.getProjection().toPixels(marker_loc, null);
+    	Point pt=_mapView.getProjection().toPixels(marker_loc, null);
+    	
+    	//depends on original map coordinate, not location on screen
+    	boolean alignTop = pt.y * 2 >_mapView.getHeight();
+    	
+        if (_ts != null) {
+        	int listHeight = _ts.getListView().getHeight();
+        	//pt = new Point(pt.x, pt.y + listHeight);
+        }
+        	
 
         View view = getView();
 
@@ -171,7 +187,6 @@ public class PopupPanel extends Overlay {
         snippet = str_replace(snippet, "&#x2029;", "");
 
         //headline = str_replace(headline, "&amp;", "&");
-
         ((TextView)view.findViewById(R.id.headline)).setText(headline);
         //((TextView)view.findViewById(R.id.snippet)).setText(snippet);
         
@@ -180,7 +195,7 @@ public class PopupPanel extends Overlay {
 
         mGazId = gaz_id;
 
-        show((pt.y * 2 >_mapView.getHeight()), pt);
+        show(alignTop, pt);
     }
 
     // Naive unescaping of HTML...

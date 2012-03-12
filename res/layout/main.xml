@@ -6,7 +6,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:weightSum="1">
+        android:layout_height="60dp" android:weightSum="1">
         <!-- TextView android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -14,39 +14,41 @@
             android:text="Number of Markers:" /-->
         <ImageButton android:id="@+id/home"
             android:src="@drawable/icon_home"
+            android:paddingTop="15dp"
             android:layout_height="wrap_content"
             android:layout_width="45dp"
             android:background="@android:color/transparent"/>
         <ImageButton android:id="@+id/local"
             android:src="@drawable/icon_local"
+            android:paddingTop="15dp"
             android:layout_height="wrap_content"
             android:layout_width="45dp"
             android:background="@android:color/transparent"/>
-        <SeekBar android:paddingLeft="40px"
+        <SeekBar android:paddingLeft="5dp"
             android:id="@+id/slider"
             android:progress="50"
             android:max="100"
-            android:paddingRight="40px"
+            android:paddingRight="5dp"
             android:saveEnabled="true"
-            android:layout_weight="1.04"
             android:paddingBottom="10px"
-            android:progressDrawable="@drawable/seekbar_bg"
-            android:layout_width="107dp"
+            android:thumb="@drawable/seek_thumb"
+            android:progressDrawable="@drawable/myseekbar"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:paddingTop="10px" />
-        	<!-- android:progressDrawable="@drawable/seekbar_progress"
-        		android:thumb="@drawable/seek_thumb" -->
+            android:paddingTop="15dp" />
         
         <ImageButton android:id="@+id/world" 
         	android:layout_width="45dp" 
         	android:src="@drawable/icon_world" 
+            android:paddingTop="15dp"
         	android:layout_height="wrap_content"
         	android:background="@android:color/transparent"/>
-	    <ImageButton android:id="@+id/locate"
-	    	android:src="@drawable/icon_locate"
-	    	android:layout_height="wrap_content" 
-	    	android:layout_width="45dp"
-	    	android:background="@android:color/transparent"/>
+	    <ImageButton android:id="@+id/locate" 
+        	android:layout_width="45dp" 
+        	android:src="@drawable/icon_locate" 
+            android:paddingTop="15dp"
+        	android:layout_height="wrap_content"
+        	android:background="@android:color/transparent"/>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -58,7 +60,7 @@
 	        android:clickable="true"
 	        android:apiKey="0M-bdp7P5_YvRA4mEg4oprDMrnb-kMl93mDmu7A"
 	        android:layout_alignParentRight="true"
-	        android:layout_height="440dp"/>
+	        android:layout_height="450dp"/>
  	    <!-- with titlebar and notificationbar, layout_height should be 380 -->
 	        <!-- 
 	        	UMIACS:

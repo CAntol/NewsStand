@@ -20,6 +20,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -394,7 +395,8 @@ public class Refresh implements Runnable {
 					my_marker = R.drawable.marker_sports;
 				else {
 					my_marker = R.drawable.marker_general;
-					Toast.makeText(_ctx, "Bad topic: " + cur_topic, Toast.LENGTH_SHORT).show();
+					//not sure what it means, but it gets annoying
+					//Toast.makeText(_ctx, "Bad topic: " + cur_topic, Toast.LENGTH_SHORT).show();
 				}
 				itemizedoverlay.addOverlay(overlayitem, _resources.getDrawable(my_marker));
 			}
@@ -458,8 +460,12 @@ public class Refresh implements Runnable {
 			return theMarkerFeedHandler.getFeed();
 		} catch (Exception ee) {
 			// if we have a problem, simply return null
-			Toast.makeText(_ctx, "Error fetching markers",
-					Toast.LENGTH_SHORT).show();
+			
+			//you can't make a toast in worker thread
+			//Toast.makeText(_ctx, "Error fetching markers",
+					//Toast.LENGTH_SHORT).show();
+			
+			Log.i("Refresh.getFeed()", "No Internet");
 			return null;
 			
 			////////////TEMP TEST CODE ////////////////
@@ -513,7 +519,8 @@ public class Refresh implements Runnable {
 				}
 				mNumExecuting--;
 			} else {
-				Toast.makeText(_ctx, "Null marker feed...", Toast.LENGTH_SHORT).show();
+				String errmsg = "Null marker feed...";
+				Toast.makeText(_ctx, "Unable to access internet", Toast.LENGTH_LONG).show();
 			}
 		}
 	}
