@@ -95,7 +95,7 @@ public class MarkerInfo {
         return _markup;
     }
     String getSnippet() {
-        return _snippet;
+    	return _snippet;
     }
     String getKeyword(){
     	return _keyword;

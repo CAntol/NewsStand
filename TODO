@@ -13,6 +13,11 @@ Done
 - Hide PopupPanel when moving map to new location
 - PopupPanel always hugging left side, needs to always extend to marker
 - Implement/update Local functionality
+	3/14
+- Search no longer throwing exception, no longer displaying search query over bottom icons
+- Search now works
+- Hide popup panel when animating to location (locate, local, world)
+- Popup Panel -> display Location top, Headline bottom
 
 	--Previous--
 - Get Auto-Refresh working
@@ -29,9 +34,7 @@ Done
 
 Todo
 	--Chris--
--	Map disappearing sometimes, figure out why (clear data to restore) -> log.txt
--	Search not working, displaying search query over bottom icons
--	Populate snippet
+-	Map disappearing sometimes, figure out why (clear data to restore) -> Documents/log.txt (fixed?)
 -	Top Stories image viewer
 -	Report Error page redirect
 -	Determine if Home functionality is correct

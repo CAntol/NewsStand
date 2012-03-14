@@ -223,6 +223,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mButtonLocal.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				mPanel.hide();
 				mMapView.goToCurrentLocation();
 			}
 		});
@@ -231,6 +232,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mButtonWorld.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				mPanel.hide();
 				mMapView.goWorld();
 				
 			}
@@ -481,6 +483,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		search_view.setText("Search: " + query);
 		search_view.setTextColor(Color.BLUE);
 		search_view.setTextSize(16);
+		search_view.setPadding(0, 0, 0, 100);
 		mSearchLayout.addView(search_view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 																		 LinearLayout.LayoutParams.WRAP_CONTENT));
 		
@@ -491,11 +494,15 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		MarginLayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.setMargins(3,6,0,0);
 		mSearchView.setLayoutParams(lp);
-		mSearchView.setOnClickListener(this);
 		mSearchLayout.addView(mSearchView);
 		
+		mSearchLayout.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				clearSearch();
+			}
+		});
+		
 		searchOptions.addView(mSearchLayout);
-		//		Toast.makeText(this, "Searching for: " + query, Toast.LENGTH_SHORT).show();
 		mMapView.updateMapWindowForce();
 	}
 	
@@ -526,6 +533,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				Editable value = input.getText();
 				//Toast.makeText(getContext(), "You searched for: " + value, Toast.LENGTH_SHORT).show();
+				mPanel.hide();
 				mMapView.goToPlace(value.toString());
 			}
 		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

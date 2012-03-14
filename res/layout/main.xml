@@ -15,12 +15,14 @@
         <ImageButton android:id="@+id/home"
             android:src="@drawable/icon_home"
             android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_height="wrap_content"
             android:layout_width="45dp"
             android:background="@android:color/transparent"/>
         <ImageButton android:id="@+id/local"
             android:src="@drawable/icon_local"
             android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_height="wrap_content"
             android:layout_width="45dp"
             android:background="@android:color/transparent"/>
@@ -30,7 +32,7 @@
             android:max="100"
             android:paddingRight="5dp"
             android:saveEnabled="true"
-            android:paddingBottom="10px"
+            android:paddingBottom="15dp"
             android:thumb="@drawable/seek_thumb"
             android:progressDrawable="@drawable/myseekbar"
             android:layout_width="135dp"
@@ -41,12 +43,14 @@
         	android:layout_width="45dp" 
         	android:src="@drawable/icon_world" 
             android:paddingTop="15dp"
+            android:paddingBottom="15dp"
         	android:layout_height="wrap_content"
         	android:background="@android:color/transparent"/>
 	    <ImageButton android:id="@+id/locate" 
         	android:layout_width="45dp" 
         	android:src="@drawable/icon_locate" 
             android:paddingTop="15dp"
+            android:paddingBottom="15dp"
         	android:layout_height="wrap_content"
         	android:background="@android:color/transparent"/>
     </LinearLayout>
