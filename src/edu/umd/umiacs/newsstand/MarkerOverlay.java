@@ -79,9 +79,9 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
             return true;
         }
         if(_ctx != null)
-        	_ctx.getPanel().display(item.getPoint(), item.getTitle(), item.getSnippet(), item.getGazID());
+        	_ctx.getPanel().display(item.getPoint(), item.getTitle(), item.getName(), item.getGazID());
         else
-        	_ts.getPanel().display(item.getPoint(), item.getTitle(), item.getSnippet(), item.getGazID());
+        	_ts.getPanel().display(item.getPoint(), item.getTitle(), item.getName(), item.getGazID());
         
         
         return true;
@@ -89,13 +89,19 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
 
     public static class MarkerOverlayItem extends OverlayItem {
         String mGazID;
-        public MarkerOverlayItem(GeoPoint point, String title, String snippet, String gaz_id) {
+        String name;
+        public MarkerOverlayItem(GeoPoint point, String title, String snippet, String gaz_id, String name) {
             super(point, title, snippet);
+            this.name = name;
             mGazID = gaz_id;
         }
 
         public String getGazID() {
             return mGazID;
+        }
+        
+        public String getName() {
+        	return name;
         }
         
         

@@ -9,10 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -102,6 +104,19 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mMapView.setRefresh(mRefresh);
 		
 	}
+	//resize map
+	public void onWindowFocusChanged(boolean hasFocus) {
+		//get screen height
+		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+		//get size of topbar
+		int topHeight = ((LinearLayout)findViewById(R.id.topbar)).getHeight();
+		//get size of bottombar
+		int botHeight = ((LinearLayout)findViewById(R.id.botbar)).getHeight();
+		//set mapview size to height - topbar - bottombar
+		LayoutParams p = mMapView.getLayoutParams();
+		//this adjusts the height without making a call to setlayoutparams
+		p.height = screenHeight - topHeight - botHeight;
+	}
 	
 	private void initOneHand(){
 		oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
@@ -158,17 +173,10 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	public ImageButton getRefreshButton() {
 		return mButtonRefresh;
 	}
-	
 	/** load default or saved prefs into prefs object **/
 	public void initPrefs() {
-		// TODO - multiple preference 
-		// original signle preference
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		mPrefsSetting = PreferenceManager.getDefaultSharedPreferences(this);
-
-		// multiple shared preference. return null for now. 
-		mPrefsSetting = this.getSharedPreferences("preferences", MODE_PRIVATE);
-		mPrefsSources = this.getSharedPreferences("sources", MODE_PRIVATE);      
+		mPrefsSetting = getSharedPreferences("preferences", 0);
+		mPrefsSources = getSharedPreferences("sources", 0);
 	}
 	
 	@Override
@@ -223,6 +231,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mButtonLocal.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				mPanel.hide();
 				mMapView.goToCurrentLocation();
 			}
 		});
@@ -231,6 +240,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mButtonWorld.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				mPanel.hide();
 				mMapView.goWorld();
 				
 			}
@@ -481,6 +491,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		search_view.setText("Search: " + query);
 		search_view.setTextColor(Color.BLUE);
 		search_view.setTextSize(16);
+		search_view.setPadding(0, 0, 0, 100);
 		mSearchLayout.addView(search_view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 																		 LinearLayout.LayoutParams.WRAP_CONTENT));
 		
@@ -491,11 +502,15 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		MarginLayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.setMargins(3,6,0,0);
 		mSearchView.setLayoutParams(lp);
-		mSearchView.setOnClickListener(this);
 		mSearchLayout.addView(mSearchView);
 		
+		mSearchLayout.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				clearSearch();
+			}
+		});
+		
 		searchOptions.addView(mSearchLayout);
-		//		Toast.makeText(this, "Searching for: " + query, Toast.LENGTH_SHORT).show();
 		mMapView.updateMapWindowForce();
 	}
 	
@@ -526,6 +541,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				Editable value = input.getText();
 				//Toast.makeText(getContext(), "You searched for: " + value, Toast.LENGTH_SHORT).show();
+				mPanel.hide();
 				mMapView.goToPlace(value.toString());
 			}
 		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

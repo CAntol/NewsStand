@@ -126,7 +126,8 @@ public class TopStoriesRefresh implements Runnable {
 			GeoPoint point = new GeoPoint( (int) ( lat* 1E6), (int) ( lon* 1E6));
 
 			MarkerOverlayItem overlayitem = new MarkerOverlayItem(point,
-					cur_marker.getTitle(), cur_marker.getSnippet(), cur_marker.getGazID());
+					cur_marker.getTitle(), cur_marker.getSnippet(), cur_marker.getGazID(),
+					cur_marker.getName());
 
 			String cur_topic = cur_marker.getTopic();
 

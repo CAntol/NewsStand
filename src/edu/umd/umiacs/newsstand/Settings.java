@@ -5,17 +5,23 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 
 
 
 public class Settings extends PreferenceActivity implements OnSharedPreferenceChangeListener {
-
+	
+	SharedPreferences prefs;
+	SharedPreferences.Editor editor;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 		CheckBoxPreference show_all = (CheckBoxPreference)getPreferenceScreen().findPreference("all_topics");
 		show_all.setDisableDependentsState(true);
+		prefs = getSharedPreferences("preferences", 0);
+        editor = prefs.edit();
 	}
 
 	@Override
@@ -32,12 +38,9 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences pref, String key) {
-		if (key.equals("all_topics")) {
-			if (pref.getBoolean("all_topics", false)) {
-				// put any logic here that should fire when a preference is changed.
-			}
-		}
-		//Toast.makeText(getApplicationContext(), "Preference changed!", Toast.LENGTH_SHORT).show();
+		String value = pref.getAll().get(key).toString();
+		editor.putString(key, value);
+		editor.commit();
 	}
 
 }

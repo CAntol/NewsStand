@@ -19,8 +19,8 @@ import android.view.WindowManager;
 
 public class SplashScreen extends Activity {
 
-    protected boolean _active = false;
-    protected int _splashTime = 1000; // time to display the splash screen in ms
+    protected boolean _active = false;  // set this to true to display splash screen
+    protected int _splashTime = 3000; // time to display the splash screen in ms
     private boolean go;
 
     /** Called when the activity is first created. */

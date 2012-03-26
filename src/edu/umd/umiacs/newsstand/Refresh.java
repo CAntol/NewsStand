@@ -106,6 +106,7 @@ public class Refresh implements Runnable {
 		mLatH = mLatL + lat_span;
 		mLonL = centerpoint.getLongitudeE6() - (lon_span / 2);
 		mLonH = mLonL + lon_span;
+		_ctx.initPrefs();
 	}
 
 	private MarkerFeed getMarkers() {
@@ -115,11 +116,11 @@ public class Refresh implements Runnable {
 	//	_ctx.updateOneHand();
 		
 		String marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";
-		marker_url = String
-		.format(marker_url,
-				mLatL / 1E6, mLatH / 1E6,
-				mLonL / 1E6, mLonH / 1E6);
+		marker_url = String.format(marker_url,
+							mLatL / 1E6, mLatH / 1E6,
+							mLonL / 1E6, mLonH / 1E6);
 
+		//THIS IS HOW SEARCH IS USED
 		if (_ctx.mSearchQuery != null && _ctx.mSearchQuery != "") {
 			marker_url += String.format("&search=%s", _ctx.mSearchQuery);
 		}
@@ -134,8 +135,8 @@ public class Refresh implements Runnable {
 		// layerParam - total four layers
 		marker_url += layerQuery();
 
-		// topicParam - DONE
-		marker_url += topicQuery();
+		// topicParam - topics
+		//marker_url += topicQuery();
 
 		// imagesParam - num of images
 		marker_url += imageQuery();
@@ -149,38 +150,39 @@ public class Refresh implements Runnable {
 		// countryParam - need to find out what is this . TODO2
 		marker_url += countryQuery();
 		
+		Log.i("feed url", marker_url);
+		
 		return getFeed(marker_url);
 	}
 
 	private String topicQuery() {
-		if (_settingPrefs.getBoolean("all_topics", false)) {
+		if (_settingPrefs.getString("all_topics", "false").equals("true")) {
 			// add nothing to query string if showing all topics
-		}
-		else {
-			String topics = "";
-			if (_settingPrefs.getBoolean("general_topics", false)) {
+		} else {
+			String topics = ""; 
+			if (_settingPrefs.getString("general_topics", "false").equals("true")) {
 				topics += "'General',";
 			}
-			if (_settingPrefs.getBoolean("business_topics", false)) {
+			if (_settingPrefs.getString("business_topics", "false").equals("true")) {
 				topics += "'Business',";
 			}
-			if (_settingPrefs.getBoolean("scitech_topics", false)) {
+			if (_settingPrefs.getString("scitech_topics", "false").equals("true")) {
 				topics += "'SciTech',";
 			}
-			if (_settingPrefs.getBoolean("entertainment_topics", false)) {
+			if (_settingPrefs.getString("entertainment_topics", "false").equals("true")) {
 				topics += "'Entertainment',";
 			}
-			if (_settingPrefs.getBoolean("health_topics", false)) {
+			if (_settingPrefs.getString("health_topics", "false").equals("true")) {
 				topics += "'Health',";
 			}
-			if (_settingPrefs.getBoolean("sports_topics", false)) {
+			if (_settingPrefs.getString("sports_topics", "false").equals("true")) {
 				topics += "'Sports',";
 			}
 			if (topics.length() > 0) {
 				return String.format("&cat=(%s)", topics.substring(0, topics.length()-1));
 			}
 		}
-		return "";
+		return null;
 	}
 
 	private String layerQuery(){
@@ -286,7 +288,7 @@ public class Refresh implements Runnable {
 		else
 			defaultSource = false;
 		*/
-		return "";
+		return result;
 	}
 	
 	private String rankQuery(){
@@ -294,7 +296,9 @@ public class Refresh implements Runnable {
 		int rankInt = Integer.valueOf(rank);
 		if(rankInt == 0)
 			return "&rank=time";
-		else if(rankInt ==2 )
+		else if(rankInt == 1)
+			return "&rank=reputable";
+		else if(rankInt == 2)
 			return "&rank=newest";
 		else if(rankInt == 3)
 			return "&rank=twitter";
@@ -354,6 +358,7 @@ public class Refresh implements Runnable {
 	}
 
 	private void setMarkers(MarkerFeed feed) {
+		try {
 		List<Overlay> mapOverlays = _mapView.getOverlays();
 		
 		MarkerOverlay itemizedoverlay = new MarkerOverlay( 
@@ -374,8 +379,10 @@ public class Refresh implements Runnable {
 				GeoPoint point = new GeoPoint(
 						(int) ( lat* 1E6),
 						(int) ( lon* 1E6));
+				//description but no snippet
 				MarkerOverlayItem overlayitem = new MarkerOverlayItem(point,
-						cur_marker.getTitle(), cur_marker.getSnippet(), cur_marker.getGazID());
+						cur_marker.getTitle(), cur_marker.getSnippet(),
+						cur_marker.getGazID(), cur_marker.getName());
 
 				String cur_topic = cur_marker.getTopic();
 
@@ -407,7 +414,8 @@ public class Refresh implements Runnable {
 						(int) (Float.valueOf(cur_marker.getLatitude()).floatValue() * 1E6),
 						(int) (Float.valueOf(cur_marker.getLongitude()).floatValue() * 1E6));
 				MarkerOverlayItem overlayitem = new MarkerOverlayItem(point,
-						cur_marker.getTitle(), cur_marker.getSnippet(), cur_marker.getGazID());
+						cur_marker.getTitle(), cur_marker.getSnippet(), cur_marker.getGazID(),
+						cur_marker.getName());
 				
 				String marker_text = "";
 				if (layerInt == 4){	//location layer
@@ -432,7 +440,9 @@ public class Refresh implements Runnable {
 			}
 			_mapView.invalidate();
 		}
-
+		} catch(NumberFormatException e) {
+			//I believe this happens when repeatedly panning, too fast and long
+		}
 	}
 
 	private MarkerFeed getFeed(String urlToRssFeed) {
@@ -459,11 +469,9 @@ public class Refresh implements Runnable {
 			// or null on error
 			return theMarkerFeedHandler.getFeed();
 		} catch (Exception ee) {
-			// if we have a problem, simply return null
 			
-			//you can't make a toast in worker thread
-			//Toast.makeText(_ctx, "Error fetching markers",
-					//Toast.LENGTH_SHORT).show();
+			//GENERIC EXCEPTION CATCH
+			ee.printStackTrace();
 			
 			Log.i("Refresh.getFeed()", "No Internet");
 			return null;
@@ -520,7 +528,7 @@ public class Refresh implements Runnable {
 				mNumExecuting--;
 			} else {
 				String errmsg = "Null marker feed...";
-				Toast.makeText(_ctx, "Unable to access internet", Toast.LENGTH_LONG).show();
+				Toast.makeText(_ctx, "Unable to access internet", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

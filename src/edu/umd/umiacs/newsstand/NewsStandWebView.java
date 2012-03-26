@@ -22,6 +22,5 @@ public class NewsStandWebView extends Activity {
 		webView.loadUrl(url);
 
 		webView.setWebViewClient(new InfoWebViewClient());
-
 	}
 }

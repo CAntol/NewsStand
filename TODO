@@ -13,6 +13,15 @@ Done
 - Hide PopupPanel when moving map to new location
 - PopupPanel always hugging left side, needs to always extend to marker
 - Implement/update Local functionality
+	3/14
+- Search no longer throwing exception, no longer displaying search query over bottom icons
+- Search now works
+- Hide popup panel when animating to location (locate, local, world)
+- Popup Panel -> display Location top, Headline bottom
+	3/26
+- Dynamically adjust the height of map based on height of screen (accounts for different screen sizes)
+- Map no longer disappearing (so far)
+- Extensive progress towards enable settings(filters) -> rank, topics, layers, etc
 
 	--Previous--
 - Get Auto-Refresh working
@@ -29,12 +38,17 @@ Done
 
 Todo
 	--Chris--
--	Map disappearing sometimes, figure out why (clear data to restore) -> log.txt
--	Search not working, displaying search query over bottom icons
--	Populate snippet
+-	Unable to apply both cat(topic) and rank parameters to query
+-	Implement settings (mapview)
+	- filter for layers, topics, sources, feeds
+	-> TOPICS -> FEEDS/COUNTRIES
+-	Why does getMarkers() get called 3 times in succession when returning to mapview? (onResume..then what?)
+-	Remove old icons that don't meet current filter(s)
+-	Top Stories settings (?)
 -	Top Stories image viewer
 -	Report Error page redirect
 -	Determine if Home functionality is correct
+-	Implement mode switch (requires twitterstand implementation, photostand, etc..)
 
 	--Previous--
 - Find appropriate bubbles to use when tapping on cluster markers

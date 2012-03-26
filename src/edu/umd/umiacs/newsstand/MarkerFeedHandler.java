@@ -4,6 +4,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.util.Log;
+
 public class MarkerFeedHandler extends DefaultHandler {
 
     private MarkerFeed _mFeed;
@@ -197,11 +199,13 @@ public class MarkerFeedHandler extends DefaultHandler {
                 currentstate = 0;
                 break;
             case RSS_SNIPPET:
-                _mMarker.setSnippet(theString);
-                currentstate = 0;
-                break;
+            	throw new NullPointerException();
+                //_mMarker.setSnippet(theString);
+                //currentstate = 0;
+                //break;
             case RSS_KEYWORD:
             	_mMarker.setKeyword(theString);
+            	currentstate = 0;
             	break;
             default:
                 return;

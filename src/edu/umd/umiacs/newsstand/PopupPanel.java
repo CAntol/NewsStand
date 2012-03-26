@@ -162,8 +162,8 @@ public class PopupPanel extends Overlay {
     }
 
 
-    public void display(GeoPoint marker_loc, String headline, String snippet, String gaz_id) {
-
+    public void display(GeoPoint marker_loc, String headline, String name, String gaz_id) {
+    	
     	Point pt=_mapView.getProjection().toPixels(marker_loc, null);
     	
     	//depends on original map coordinate, not location on screen
@@ -176,7 +176,7 @@ public class PopupPanel extends Overlay {
         	
 
         View view = getView();
-
+        /*
         snippet = str_replace(snippet, "<span class='georef'>", "<b><font color=\"red\">");
         snippet = str_replace(snippet, "</span>", "</font></b>");
         snippet = str_replace(snippet, "&mdash;", "-");
@@ -185,13 +185,14 @@ public class PopupPanel extends Overlay {
         snippet = str_replace(snippet, "&quot;", "\"");
         snippet = str_replace(snippet, "&#39;", "'");
         snippet = str_replace(snippet, "&#x2029;", "");
-
+	*/
         //headline = str_replace(headline, "&amp;", "&");
+        ((TextView)view.findViewById(R.id.name)).setText(name);
         ((TextView)view.findViewById(R.id.headline)).setText(headline);
         //((TextView)view.findViewById(R.id.snippet)).setText(snippet);
         
-        if (snippet!=null)
-        	((TextView)view.findViewById(R.id.snippet)).setText(Html.fromHtml(snippet));
+        //if (snippet!=null)
+        //	((TextView)view.findViewById(R.id.snippet)).setText(Html.fromHtml(snippet));
 
         mGazId = gaz_id;
 
