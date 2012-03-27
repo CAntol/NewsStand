@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -196,6 +197,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		initPrefs();
 		mRefresh.clearSavedLocation();
 		mapUpdateForce();
 	}

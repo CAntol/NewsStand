@@ -106,7 +106,6 @@ public class Refresh implements Runnable {
 		mLatH = mLatL + lat_span;
 		mLonL = centerpoint.getLongitudeE6() - (lon_span / 2);
 		mLonH = mLonL + lon_span;
-		_ctx.initPrefs();
 	}
 
 	private MarkerFeed getMarkers() {
@@ -136,7 +135,7 @@ public class Refresh implements Runnable {
 		marker_url += layerQuery();
 
 		// topicParam - topics
-		//marker_url += topicQuery();
+		marker_url += topicQuery();
 
 		// imagesParam - num of images
 		marker_url += imageQuery();
@@ -292,7 +291,7 @@ public class Refresh implements Runnable {
 	}
 	
 	private String rankQuery(){
-		String rank = _sourcePrefs.getString("rank", "0");
+		String rank = _sourcePrefs.getString("rank", "2");
 		int rankInt = Integer.valueOf(rank);
 		if(rankInt == 0)
 			return "&rank=time";
