@@ -22,6 +22,9 @@ Done
 - Dynamically adjust the height of map based on height of screen (accounts for different screen sizes)
 - Map no longer disappearing (so far)
 - Extensive progress towards enable settings(filters) -> rank, topics, layers, etc
+	3/27
+- Rank preferences commented out until server is ready to handle the request
+- Optimized preference refresh
 
 	--Previous--
 - Get Auto-Refresh working
@@ -38,10 +41,10 @@ Done
 
 Todo
 	--Chris--
--	Unable to apply both cat(topic) and rank parameters to query
+-	rank not properly implemented on server side
 -	Implement settings (mapview)
 	- filter for layers, topics, sources, feeds
-	-> TOPICS -> FEEDS/COUNTRIES
+	-> RANKS -> FEEDS/COUNTRIES
 -	Why does getMarkers() get called 3 times in succession when returning to mapview? (onResume..then what?)
 -	Remove old icons that don't meet current filter(s)
 -	Top Stories settings (?)

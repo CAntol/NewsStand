@@ -181,7 +181,7 @@ public class Refresh implements Runnable {
 				return String.format("&cat=(%s)", topics.substring(0, topics.length()-1));
 			}
 		}
-		return null;
+		return "";
 	}
 
 	private String layerQuery(){

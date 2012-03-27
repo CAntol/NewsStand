@@ -17,7 +17,7 @@
 			android:clickable="true" android:layout_width="fill_parent"
 			android:id="@+id/topStoryView" android:layout_height="300dp"
 			android:layout_alignParentTop="true"
-			android:apiKey="0M-bdp7P5_YvRA4mEg4oprDMrnb-kMl93mDmu7A"
+			android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
 			android:layout_alignParentLeft="true">
 		</edu.umd.umiacs.newsstand.TopStoriesMapView>
 		<SeekBar android:layout_width="150dp" android:max="100"
