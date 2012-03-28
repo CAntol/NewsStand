@@ -55,13 +55,13 @@
         <item>Most Recent</item>
         <item>Most Reputable</item>
         <item>Real Time</item>
-        <item>Twitter</item>
+        <!--item>Twitter</item-->
     </string-array>
     <string-array name="ranksValues">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
+        <!-->item>3</item-->
     </string-array>
     <string-array name="one_handed">
         <item>Neutral</item>

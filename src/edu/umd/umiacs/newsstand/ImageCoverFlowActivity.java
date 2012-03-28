@@ -20,6 +20,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -42,6 +43,9 @@ public class ImageCoverFlowActivity extends Activity{
 		if (url != null){
 			initBitmap();
 		}
+		
+		BitmapFactory.Options bmfOptions = new BitmapFactory.Options();
+		bmfOptions.inSampleSize = 8;
 
 		ImageCoverFlow  = new ImageCoverFlow(this);
 
@@ -59,11 +63,24 @@ public class ImageCoverFlowActivity extends Activity{
 		setContentView(ImageCoverFlow);
 	}
 	
+	public void onPause() {
+		for (int c = 0; c < ImageCoverFlow.getCount(); c++) {
+			ImageView v = (ImageView) ImageCoverFlow.getChildAt(c);
+			if (v != null)
+				if (v.getDrawable() != null)
+					v.getDrawable().setCallback(null);
+		}
+		super.onPause();
+	}
+	
+	//TODO remove hard cap, adjust dynamically with memory cap
 	private void initBitmap(){
 		mBitmap = new Bitmap[url.length];
 		for(int i =0; i<url.length; i++)
 		{
 			mBitmap[i] = loadImage(url[i]);
+			if (mBitmap[i] == null)
+				break;
 		}
 	}
 	
@@ -84,7 +101,12 @@ public class ImageCoverFlowActivity extends Activity{
 			}
 
 			// TODO - crash on image load
-			bitmap = BitmapFactory.decodeStream(inputStream, null, null);
+			try {
+				bitmap = BitmapFactory.decodeStream(inputStream, null, null);
+			} catch (OutOfMemoryError e) {
+				Log.i("NewsStand", "Memory Exceeded!");
+				bitmap = null;
+			}
 			inputStream.close();
 		} catch (Exception e1) {
 			bitmap.recycle();

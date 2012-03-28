@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android" android:key="sources" android:title="sources">
-    <!--PreferenceCategory android:title="All Sources">
+    <PreferenceCategory android:title="All Sources">
         <ListPreference android:title="Select Rank" android:entries="@array/ranks" android:key="rank" android:entryValues="@array/ranksValues"></ListPreference>
-    </PreferenceCategory-->
+    </PreferenceCategory>
     <PreferenceCategory android:title="Feeds">
         <CheckBoxPreference android:title="New York Times" android:key="new_york_time" android:defaultValue="false"></CheckBoxPreference>
         <CheckBoxPreference android:key="washington_post" android:title="Washington Post" android:defaultValue="false"></CheckBoxPreference>

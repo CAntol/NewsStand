@@ -76,8 +76,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	public void onRestart(){
 		super.onRestart();
 		// TODO - fix the map problem
-		mMapView.zoomInMap();
-		mMapView.zoomOutMap();
+		//mMapView.zoomInMap();
+		//mMapView.zoomOutMap();
 	}
 	
 	/** Called when the activity is first created. */

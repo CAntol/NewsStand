@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,7 +38,9 @@ import com.google.android.maps.Overlay;
 
 public class TopStories extends MapActivity implements View.OnClickListener{
 
-	private SharedPreferences _mPrefs;
+	//private SharedPreferences _mPrefs;
+	private SharedPreferences mPrefsSetting;
+	private SharedPreferences mPrefsSources;
 	private TopStoriesMapView _mMapView;
 	private TopStoriesListView _mListView;
 	private SeekBar _mSlider;
@@ -75,16 +78,21 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         // handle search requests
         handleIntent(getIntent());
         
-        fSetHome = _mPrefs.getBoolean("set_home", false);        
+        fSetHome = mPrefsSetting.getString("set_home", "false").equals("true");        
 	}
 
     public TopStoriesRefresh getRefresh() {
         return _mRefresh;
     }
 
-    public SharedPreferences getPrefs(){
-		return _mPrefs;
+    public SharedPreferences getSettingPrefs(){
+		return mPrefsSetting;
 	}
+    
+    public SharedPreferences getSourcePrefs() {
+    	return mPrefsSources;
+    }
+    
     public TopStoriesMapView getMapView() {
         return _mMapView;
     }
@@ -93,9 +101,9 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         return _mPanel;
     }
 
-    public SharedPreferences refs() {
-        return _mPrefs;
-    }
+    //public SharedPreferences refs() {
+    //    return _mPrefs;
+    //}
 
     public SeekBar getSlider() {
         return _mSlider;
@@ -103,8 +111,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
     /** load default or saved prefs into prefs object **/
 	public void initPrefs() {
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		_mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		//PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		//_mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mPrefsSetting = getSharedPreferences("preferences", 0);
+		mPrefsSources = getSharedPreferences("sources", 0);
 	}
 
     @Override
@@ -246,10 +256,6 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     	if(_mFeed != null)
     		_mListView.initAdapter(_mFeed);
     }
-    
-	public SharedPreferences getPrefsSetting() {
-		return _mPrefs;
-	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -282,7 +288,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			// sourcesParam - TODO - need to implement
 
 			// rankParam - TODO - three types: &rank=time , &rank=newest , &rank=twitter . - need to implement
-
+			topStory += rankQuery();
+			
 			// topicParam - DONE
 			topStory += topicQuery();
 
@@ -350,7 +357,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	
 	
 	private String videoQuery(){
-		String video = _mPrefs.getString("videos", "0");
+		String video = mPrefsSetting.getString("videos", "0");
 		int videoInt = Integer.valueOf(video);
 		if(videoInt != 0)
 			return String.format("&num_videos=%s", video);
@@ -358,36 +365,49 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	}
 
 	private String imageQuery(){
-		String image = _mPrefs.getString("images", "0");
+		String image = mPrefsSetting.getString("images", "0");
 		int imageInt = Integer.valueOf(image);
 		if(imageInt != 0)
 			return String.format("&num_images=%s", image);
 		return "";
 	}
 	
+	private String rankQuery() {
+			String rank = mPrefsSources.getString("rank", "2");
+			int rankInt = Integer.valueOf(rank);
+			if(rankInt == 0)
+				return "&rank=time";
+			else if(rankInt == 1)
+				//return "&rank=reputable";
+				return "&rank=newest";
+			else if(rankInt == 2)
+				return "&rank=newest";
+			
+			return "";
+	}
+	
 
 	private String topicQuery() {
-		if (_mPrefs.getBoolean("all_topics", false)) {
+		if (mPrefsSetting.getString("all_topics", "false").equals("true")) {
 			// add nothing to query string if showing all topics
-		}
-		else {
-			String topics = "";
-			if (_mPrefs.getBoolean("general_topics", false)) {
+		} else {
+			String topics = ""; 
+			if (mPrefsSetting.getString("general_topics", "false").equals("true")) {
 				topics += "'General',";
 			}
-			if (_mPrefs.getBoolean("business_topics", false)) {
+			if (mPrefsSetting.getString("business_topics", "false").equals("true")) {
 				topics += "'Business',";
 			}
-			if (_mPrefs.getBoolean("scitech_topics", false)) {
+			if (mPrefsSetting.getString("scitech_topics", "false").equals("true")) {
 				topics += "'SciTech',";
 			}
-			if (_mPrefs.getBoolean("entertainment_topics", false)) {
+			if (mPrefsSetting.getString("entertainment_topics", "false").equals("true")) {
 				topics += "'Entertainment',";
 			}
-			if (_mPrefs.getBoolean("health_topics", false)) {
+			if (mPrefsSetting.getString("health_topics", "false").equals("true")) {
 				topics += "'Health',";
 			}
-			if (_mPrefs.getBoolean("sports_topics", false)) {
+			if (mPrefsSetting.getString("sports_topics", "false").equals("true")) {
 				topics += "'Sports',";
 			}
 			if (topics.length() > 0) {

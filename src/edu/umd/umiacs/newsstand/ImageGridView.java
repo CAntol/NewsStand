@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,6 +55,9 @@ public class ImageGridView extends Activity{
 
 		_mCluster_id = getIntent().getStringExtra("cluster_id");
 		_mMode = 0 ;
+		
+		BitmapFactory.Options bmfOptions = new BitmapFactory.Options();
+		bmfOptions.inSampleSize = 8;
 
 		_mGridView = (GridView) findViewById(R.id.imagegridview);
 		adapterAll = new ImageAdapter(this); 
@@ -82,6 +86,17 @@ public class ImageGridView extends Activity{
 			}
 		});
 
+	}
+	
+	//deallocates images that may still be in memory when leaving the grid view
+	public void onPause() {
+		for (int c = 0; c < _mGridView.getCount(); c++) {
+			ImageView v = (ImageView) _mGridView.getChildAt(c);
+			if (v != null)
+				if (v.getDrawable() != null)
+					v.getDrawable().setCallback(null);
+		}
+		super.onPause();
 	}
 
 
@@ -112,7 +127,11 @@ public class ImageGridView extends Activity{
 			for(TopStoriesImageInfo info: list){
 				_mAllUrl[i] = info.get_media_html();
 				_mAllWebUrl[i] = info.get_redirect();
-				all[i] = loadImage(_mAllUrl[i]);
+				//TODO remove cap, adjust dynamically within memory cap
+				//if (i < 45)
+					all[i] = loadImage(_mAllUrl[i]);
+					if (all[i] == null)
+						break;
 				_mMask[i] = (info.get_is_dupe().equals("0")) ? false : true;
 				if(!_mMask[i])
 					tempUnique[j++] = i;
@@ -120,7 +139,8 @@ public class ImageGridView extends Activity{
 			}
 
 			j--; i--;	//adjust size
-
+			if (j < 1)
+				j = 0;
 			Bitmap[] unique = new Bitmap[j];
 			_mUniqueUrl = new String[j];
 			
@@ -129,7 +149,7 @@ public class ImageGridView extends Activity{
 				_mUniqueUrl[k] = _mAllUrl[tempUnique[k]];
 				_mAllWebUrl[i] = _mAllWebUrl[tempUnique[k]];
 			}
-
+			
 			adapterAll.setBitmap(all);
 			adapterMark.setBitmap(all);
 			adapterMark.setMask(true);
@@ -139,8 +159,10 @@ public class ImageGridView extends Activity{
 
 		} catch (Exception e) {
 			Toast.makeText(getApplicationContext(),
-					"imageHandler parsing exception", Toast.LENGTH_SHORT)
-					.show();
+					//"imageHandler parsing exception", Toast.LENGTH_SHORT).show();
+					"Unable to retrieve images", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+			finish();
 		}
 
 	}
@@ -173,8 +195,7 @@ public class ImageGridView extends Activity{
 			break;
 		default:
 			Toast.makeText(getApplicationContext(),
-					"Functionality not yet implemented now.", Toast.LENGTH_SHORT)
-					.show();
+					"Functionality not yet implemented now.", Toast.LENGTH_SHORT).show();
 		}
 		return true;
 	}    
@@ -196,10 +217,16 @@ public class ImageGridView extends Activity{
 			}
 
 			// TODO - crash on image load
-			bitmap = BitmapFactory.decodeStream(inputStream, null, null);
+			try {
+				bitmap = BitmapFactory.decodeStream(inputStream, null, null);
+			} catch(OutOfMemoryError e) {
+				Log.i("NewsStand", "Memory Exceeded!");
+				bitmap = null;
+			}
 			inputStream.close();
 		} catch (Exception e1) {
-			bitmap.recycle();
+			if (bitmap != null)
+				bitmap.recycle();
 			bitmap = null;
 		}
 		return bitmap;

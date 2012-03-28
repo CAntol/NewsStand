@@ -299,8 +299,6 @@ public class Refresh implements Runnable {
 			return "&rank=reputable";
 		else if(rankInt == 2)
 			return "&rank=newest";
-		else if(rankInt == 3)
-			return "&rank=twitter";
 		
 		return "";
 	}

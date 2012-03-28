@@ -25,6 +25,10 @@ Done
 	3/27
 - Rank preferences commented out until server is ready to handle the request
 - Optimized preference refresh
+	3/28
+- Optimized to only query the server once on restart instead of three times
+- Rank filters in place
+- Settings/Preferences apply to Top Stories Mode
 
 	--Previous--
 - Get Auto-Refresh working
@@ -41,14 +45,14 @@ Done
 
 Todo
 	--Chris--
--	rank not properly implemented on server side
--	Implement settings (mapview)
-	- filter for layers, topics, sources, feeds
-	-> RANKS -> FEEDS/COUNTRIES
--	Why does getMarkers() get called 3 times in succession when returning to mapview? (onResume..then what?)
--	Remove old icons that don't meet current filter(s)
--	Top Stories settings (?)
--	Top Stories image viewer
+-	Autoselect on scroller for top stories mode
+-	Determine why there's no map on Hanan's device in Map Mode
+-	Labels under buttons if needed
+-	Slim down the seekbar
+-	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
+-	Video filter not displaying properly (might be server side, verify this)
+-	Top Stories image viewer (temp fix with cap)
+	-> attempt to scale the bitmap size down
 -	Report Error page redirect
 -	Determine if Home functionality is correct
 -	Implement mode switch (requires twitterstand implementation, photostand, etc..)
