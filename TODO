@@ -29,6 +29,10 @@ Done
 - Optimized to only query the server once on restart instead of three times
 - Rank filters in place
 - Settings/Preferences apply to Top Stories Mode
+	4/2
+- Autoselect item in Top Stories Mode
+- Slimmer seekbar
+- Reinitialize map on resume to fix empty map problem
 
 	--Previous--
 - Get Auto-Refresh working
@@ -45,10 +49,8 @@ Done
 
 Todo
 	--Chris--
--	Autoselect on scroller for top stories mode
--	Determine why there's no map on Hanan's device in Map Mode
+-	Popup Panel not adjusting location based on text size (when above icon)
 -	Labels under buttons if needed
--	Slim down the seekbar
 -	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
 -	Video filter not displaying properly (might be server side, verify this)
 -	Top Stories image viewer (temp fix with cap)

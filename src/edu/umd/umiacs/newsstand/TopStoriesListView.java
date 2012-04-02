@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,7 @@ public class TopStoriesListView extends ListView {
 	public TopStoriesListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		_ctx = (TopStories)context;
-	}
-	
+	}	
 
 	public void initAdapter(TopStoriesFeed feed){
 		_mAdapter = new TopStoryAdapter(_ctx, feed.getAllInfos());
@@ -36,11 +36,21 @@ public class TopStoriesListView extends ListView {
 	public class TopStoryAdapter extends ArrayAdapter<TopStoriesInfo>{
 		private final TopStories _ctx;
 		private final List<TopStoriesInfo> _mValues;
+		private int currentDisplay;
 
 		public TopStoryAdapter(TopStories context, List<TopStoriesInfo> allInfos) {
 			super(context, R.layout.topstorylistview, allInfos);
 			this._ctx = (TopStories)context;
 			this._mValues = allInfos;
+			this.currentDisplay = -1;
+		}
+		
+		public void clickFirstVisible(int pos) {
+			if (pos != currentDisplay) {
+				_ctx.updateMapView(_mValues.get(pos).getCluster_id());
+				_ctx.getRefresh().isClick();
+				currentDisplay = pos;
+			}
 		}
 		
 		@Override

@@ -11,6 +11,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +83,10 @@ public class PopupPanel extends Overlay {
     public void show(boolean alignTop, Point marker_pos) {
         mAlignTop = alignTop;
         mArrowOffset = marker_pos.x;
-        int binder = _ctx == null ? 100 : 110;
+        int binder = _ctx == null ? 100 : 130;
         
         int rectSide;
-       rectSide = TEXT_MARGIN;
+        rectSide = TEXT_MARGIN;
 
         // Show text view
         RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(
@@ -94,8 +95,8 @@ public class PopupPanel extends Overlay {
 
         if (alignTop) {
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            //lp.setMargins(TEXT_MARGIN, 0, TEXT_MARGIN, (_mapView.getHeight() - marker_pos.y) + MARKER_HEIGHT + POPUP_OFFSET);
-            lp.setMargins(rectSide, marker_pos.y - binder, rectSide, 0);
+            //the box grows from top down, needs to adjust based on text size
+            lp.setMargins(rectSide, marker_pos.y - binder, rectSide, marker_pos.y);
         }
         else {
         	//mAlignTop = false;
@@ -104,9 +105,18 @@ public class PopupPanel extends Overlay {
         }
 
         hide();
-
+        // TODO FIXME
         ViewGroup parent=(ViewGroup)_mapView.getParent();
         parent.addView(popup, lp);
+        int popupBottom = popup.getBottom();
+        if (alignTop && popupBottom > marker_pos.y) {
+        	Log.i("DEBUG", "child count: " + parent.getChildCount());
+        	int newTop = popupBottom - marker_pos.y;
+        	lp.setMargins(rectSide, popup.getTop() - newTop - 50, rectSide, 0);
+        	parent.removeViewAt(5);
+        	//parent.removeView(popup);
+        	parent.addView(popup, lp);
+        }
         isVisible=true;
 
         if (_mapView.getOverlays().size() >= 2) {

@@ -197,7 +197,11 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		//recreate the map to fix empty map display when started without internet
+		initMapView();
+		//refresh the preferences incase they were changed
 		initPrefs();
+		//redraw
 		mRefresh.clearSavedLocation();
 		mapUpdateForce();
 	}

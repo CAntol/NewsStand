@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -33,6 +35,8 @@ import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
+
+import edu.umd.umiacs.newsstand.TopStoriesListView.TopStoryAdapter;
 
 
 
@@ -63,7 +67,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
 		// initialize user preferences
 		initPrefs();
-
+		
 		// initialize UI
 		initMapView();
 		initSlider();
@@ -73,7 +77,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         
         // initialize Refresh processing object
         initRefresh();
-    	_mMapView.setRefresh(_mRefresh);
+        _mMapView.setRefresh(_mRefresh);
 
         // handle search requests
         handleIntent(getIntent());
@@ -134,8 +138,9 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        _mRefresh.clearSavedLocation();
-        mapUpdateForce();
+        //_mRefresh.clearSavedLocation();
+        //mapUpdateForce();
+        ((TopStoryAdapter)_mListView.getAdapter()).clickFirstVisible(_mListView.getFirstVisiblePosition());
     }
     
 	/** Delayed call to map refresh function.
@@ -255,6 +260,21 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     	_mListView = (TopStoriesListView) findViewById (R.id.topStoryList);
     	if(_mFeed != null)
     		_mListView.initAdapter(_mFeed);
+    	_mListView.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				//do nothing
+			}
+
+			@Override
+			public void onScrollStateChanged(AbsListView list, int scrollState) {
+				//only trigger when the scrolling stops
+				if (scrollState == SCROLL_STATE_IDLE)
+					((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition());
+			}
+    		
+    	});
     }
 
 	@Override
@@ -270,7 +290,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		//hides popup panel when moving to new location
 		if (_mPanel != null && _mRefresh != null)
 			_mPanel.hide();
-		_mRefresh.setClusterID(cluster_id);
+		if (_mRefresh != null)
+			_mRefresh.setClusterID(cluster_id);
 		
 	}
 	
