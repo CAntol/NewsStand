@@ -3,20 +3,28 @@ package edu.umd.umiacs.newsstand;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
+import com.readystatesoftware.maps.OnSingleTapListener;
+import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
-public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
+public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
     private final ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
     private final NewsStand _ctx;
     private final TopStories _ts;
- 
+    /*
     public MarkerOverlay(Drawable defaultMarker, Context context) {
         super(boundCenterBottom(defaultMarker));
+    	
         if(context.getClass().equals(NewsStand.class))
         {
         	_ctx = (NewsStand)context;
@@ -26,10 +34,26 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
         	_ts = (TopStories)context;
         }
     }
-
+	*/
+    public MarkerOverlay(Drawable defaultMarker, NewsStand context) {
+    	super(defaultMarker, context.getMapView());
+    	_ctx = context;
+    	_ts = null;
+    	this.setShowClose(false);
+    	this.setShowDisclosure(true);
+    	this.setSnapToCenter(false);
+    }
+    public MarkerOverlay(Drawable defaultMarker, TopStories context) {
+    	super(defaultMarker, context.getMapView());
+    	_ctx = null;
+    	_ts = context;
+    	this.setShowClose(false);
+    	this.setShowDisclosure(true);
+    	this.setSnapToCenter(false);
+    }
     // append new overlay object to mOverlays array
     public void addOverlay(OverlayItem overlay) {
-        mOverlays.add(overlay);
+    	mOverlays.add(overlay);
         populate();
     }
 
@@ -52,16 +76,26 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
     // method added to allow passing a drawable "marker" to use for the item
     // this must be done within the class because boundCenterBottom is protected
     public void addOverlay(OverlayItem overlay, Drawable marker) {
-        marker.setBounds(-marker.getIntrinsicWidth() / 3,
+    	//MarkerOverlayItem ov =
+    	//		new MarkerOverlayItem(overlay.getPoint(), overlay.getTitle(), "",
+    	//				((MarkerOverlayItem)overlay).getGazID(), ((MarkerOverlayItem)overlay).getName());
+    	MarkerOverlayItem ov =
+    			new MarkerOverlayItem(overlay.getPoint(), ((MarkerOverlayItem)overlay).getName(),
+    					overlay.getTitle(), ((MarkerOverlayItem)overlay).getGazID(), "");
+        //OverlayItem ov = overlay;
+    	marker.setBounds(-marker.getIntrinsicWidth() / 3,
                -marker.getIntrinsicHeight() * 2 / 3,
                marker.getIntrinsicWidth() / 3,
                 0);
-        overlay.setMarker(marker);
-        addOverlay(overlay);
+        ov.setMarker(marker);
+        addOverlay(ov);
     }
 
     @Override
     protected OverlayItem createItem(int i) {
+    	//MarkerOverlayItem m = (MarkerOverlayItem) mOverlays.get(i);
+    	//OverlayItem o = new OverlayItem(m.getPoint(), m.getName(), m.getTitle());
+    	//return o;
         return mOverlays.get(i);
     }
 
@@ -69,8 +103,23 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
     public int size() {
         return mOverlays.size();
     }
+    
+    protected boolean onBalloonTap(int index, OverlayItem oitem) {
+    	//MarkerOverlayItem item = (MarkerOverlayItem)mOverlays.get(index);
+    	String gaz = ((MarkerOverlayItem)oitem).getGazID();
+    	
+    	Context cur = _ctx;
+    	if (cur == null)
+    		cur = _ts;
+    	
+        Intent i = new Intent(cur, ClusterViewer.class);
+        i.putExtra("gaz_id", gaz);
+        cur.startActivity(i);
+    	
+    	return true;
+    }
 
-    @Override
+    /*@Override
     protected boolean onTap(int index) {
         MarkerOverlayItem item = (MarkerOverlayItem)mOverlays.get(index);
         Drawable marker = item.getMarker(0);
@@ -85,7 +134,7 @@ public class MarkerOverlay extends ItemizedOverlay<OverlayItem> {
         
         
         return true;
-    }
+    }*/
 
     public static class MarkerOverlayItem extends OverlayItem {
         String mGazID;

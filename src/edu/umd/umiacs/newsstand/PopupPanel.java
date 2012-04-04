@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsoluteLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -96,7 +98,10 @@ public class PopupPanel extends Overlay {
         if (alignTop) {
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             //the box grows from top down, needs to adjust based on text size
-            lp.setMargins(rectSide, marker_pos.y - binder, rectSide, marker_pos.y);
+            lp.setMargins(rectSide, marker_pos.y - binder, rectSide, 0);
+        	//lp.leftMargin = rectSide;
+        	//lp.rightMargin = rectSide;
+        	//lp.bottomMargin = marker_pos.y - 50;
         }
         else {
         	//mAlignTop = false;
@@ -105,17 +110,11 @@ public class PopupPanel extends Overlay {
         }
 
         hide();
-        // TODO FIXME
         ViewGroup parent=(ViewGroup)_mapView.getParent();
         parent.addView(popup, lp);
         int popupBottom = popup.getBottom();
         if (alignTop && popupBottom > marker_pos.y) {
-        	Log.i("DEBUG", "child count: " + parent.getChildCount());
-        	int newTop = popupBottom - marker_pos.y;
-        	lp.setMargins(rectSide, popup.getTop() - newTop - 50, rectSide, 0);
-        	parent.removeViewAt(5);
-        	//parent.removeView(popup);
-        	parent.addView(popup, lp);
+        	//weep, because this is frustrating
         }
         isVisible=true;
 
@@ -179,10 +178,10 @@ public class PopupPanel extends Overlay {
     	//depends on original map coordinate, not location on screen
     	boolean alignTop = pt.y * 2 >_mapView.getHeight();
     	
-        if (_ts != null) {
+       /* if (_ts != null) {
         	int listHeight = _ts.getListView().getHeight();
         	//pt = new Point(pt.x, pt.y + listHeight);
-        }
+        }*/
         	
 
         View view = getView();

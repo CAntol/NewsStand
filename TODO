@@ -49,7 +49,7 @@ Done
 
 Todo
 	--Chris--
--	Popup Panel not adjusting location based on text size (when above icon)
+-	Customize the overlay bubble (change color, hide when needed)
 -	Labels under buttons if needed
 -	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
 -	Video filter not displaying properly (might be server side, verify this)

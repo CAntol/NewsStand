@@ -46,10 +46,13 @@ public class TopStoriesListView extends ListView {
 		}
 		
 		public void clickFirstVisible(int pos) {
-			if (pos != currentDisplay) {
-				_ctx.updateMapView(_mValues.get(pos).getCluster_id());
+			
+			int tmp = pos >= _mValues.size() ? pos - 1 : pos;
+			
+			if (tmp != currentDisplay) {
+				_ctx.updateMapView(_mValues.get(tmp).getCluster_id());
 				_ctx.getRefresh().isClick();
-				currentDisplay = pos;
+				currentDisplay = tmp;
 			}
 		}
 		

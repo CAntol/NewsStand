@@ -271,7 +271,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			public void onScrollStateChanged(AbsListView list, int scrollState) {
 				//only trigger when the scrolling stops
 				if (scrollState == SCROLL_STATE_IDLE)
-					((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition());
+					((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition() + 1);
 			}
     		
     	});
