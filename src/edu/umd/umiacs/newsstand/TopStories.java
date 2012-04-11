@@ -22,12 +22,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -50,6 +53,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	private SeekBar _mSlider;
 	private TopStoriesRefresh _mRefresh;
 	private PopupPanel _mPanel;
+	private MarkerOverlay mOverlay;
 	private TopStoriesFeed _mFeed;
 
 	public String mSearchQuery;
@@ -57,6 +61,16 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	private TextView mSearchView;
 	
 	boolean fSetHome;
+	
+	private ImageButton mButtonMinus;
+	private ImageButton mButtonPlus;
+	private ImageButton mButtonRefresh;
+	private ImageButton mButtonInfo;
+	private ImageButton mButtonSearch;
+	private ImageButton mButtonSetting;
+	private ImageButton mButtonSource;
+	private ImageButton mButtonMode;
+	private ImageButton mButtonMap;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -65,6 +79,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.topstory);
 
+		mOverlay = null;
+		
 		// initialize user preferences
 		initPrefs();
 		
@@ -74,6 +90,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         initPopupPanel();        
         initFeed();
         initListView();
+        initButtons();
         
         // initialize Refresh processing object
         initRefresh();
@@ -83,6 +100,16 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         handleIntent(getIntent());
         
         fSetHome = mPrefsSetting.getString("set_home", "false").equals("true");        
+	}
+	
+	public MarkerOverlay getOverlay() {
+		return mOverlay;
+	}
+	
+	public void setOverlay(MarkerOverlay overlay) {
+		//if (mOverlay != null)
+		//	mOverlay.hideAllBalloons();
+		mOverlay = overlay;
 	}
 
     public TopStoriesRefresh getRefresh() {
@@ -270,8 +297,9 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			@Override
 			public void onScrollStateChanged(AbsListView list, int scrollState) {
 				//only trigger when the scrolling stops
-				if (scrollState == SCROLL_STATE_IDLE)
+				if (scrollState == SCROLL_STATE_IDLE) {
 					((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition() + 1);
+				}
 			}
     		
     	});
@@ -288,6 +316,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
 	public void updateMapView(String cluster_id) {
 		//hides popup panel when moving to new location
+		if (mOverlay != null)
+			mOverlay.hideAllBalloons();
 		if (_mPanel != null && _mRefresh != null)
 			_mPanel.hide();
 		if (_mRefresh != null)
@@ -440,6 +470,151 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 
 	private void initFeed(){
 		_mFeed = getFeed();
+	}
+	
+	private void initButtons(){
+		/*mButtonMinus = (ImageButton) findViewById(R.id.minus);
+		mButtonMinus.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				//_mMapView.zoomOutMap();
+			}
+			
+		});
+		
+		mButtonPlus = (ImageButton) findViewById(R.id.plus);
+		mButtonPlus.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				//_mMapView.zoomInMap();
+			}
+			
+		});
+		
+		mButtonRefresh = (ImageButton) findViewById(R.id.refresh);
+		mButtonRefresh.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				mapUpdateForce(1000);
+			}
+			
+		});*/
+		
+		mButtonInfo = (ImageButton) findViewById(R.id.buttonInfo2);
+		mButtonInfo.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent l = new Intent(v.getContext(), NewsStandWebView.class);
+				l = l.putExtra("url", "http://www.cs.umd.edu/~hjs/newsstand-first-page.html");
+				startActivity(l);
+			}
+			
+		});
+		
+		mButtonSearch = (ImageButton) findViewById(R.id.buttonSearch2);
+		mButtonSearch.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				//onSearchRequested();
+				Toast.makeText(getContext(), "Search Disabled for TopStories mode", Toast.LENGTH_SHORT).show();
+			}
+			
+		});
+		
+		mButtonSetting = (ImageButton) findViewById(R.id.buttonSetting2);
+		mButtonSetting.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(v.getContext(), Settings.class);
+				startActivity(i);
+			}
+			
+		});
+		
+		mButtonSource = (ImageButton) findViewById(R.id.buttonSource2);
+		mButtonSource.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent j = new Intent(v.getContext(), Sources.class);
+				startActivity(j);
+			}
+			
+		});
+		mButtonMode = (ImageButton) findViewById(R.id.buttonMode2);
+		mButtonMode.setOnClickListener(new OnClickListener(){
+		
+		//	@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
+			}
+		
+		});
+		
+		mButtonMap = (ImageButton) findViewById(R.id.buttonTopStory2);
+		mButtonMap.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				
+				//_mMapView.updateMapWindow();
+				//Intent k = new Intent(v.getContext(), TopStories.class);
+				//startActivity(k);
+				finish();
+			}
+			
+		});
+		
+		/*RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+		
+		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80,80);
+		RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(80,80);
+		RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(80,80);
+		if (oneHand == 0){
+			params1.leftMargin = params1.topMargin = 0;
+			rl.removeView(mButtonRefresh);
+			rl.addView(mButtonRefresh, params1);
+			params2.leftMargin = 400;
+			params2.topMargin = 0;
+			rl.removeView(mButtonPlus);
+			rl.addView(mButtonPlus, params2);
+			params3.leftMargin = 400;
+			params3.topMargin = 100;
+			rl.removeView(mButtonMinus);
+			rl.addView(mButtonMinus,params3);
+		}else if (oneHand == 1){
+			params1.leftMargin = params1.topMargin = 0;
+			rl.removeView(mButtonRefresh);
+			rl.addView(mButtonRefresh, params1);
+			params2.leftMargin = 350;
+			params2.topMargin = 0;
+			rl.removeView(mButtonPlus);
+			rl.addView(mButtonPlus, params2);
+			params3.leftMargin = 400;
+			params3.topMargin = 100;
+			rl.removeView(mButtonMinus);
+			rl.addView(mButtonMinus,params3);
+		} else {
+			params1.leftMargin = 400;
+			params1.topMargin = 0;
+			rl.removeView(mButtonRefresh);
+			rl.addView(mButtonRefresh, params1);
+			params2.leftMargin = 50;
+			params2.topMargin = 0;
+			rl.removeView(mButtonPlus);
+			rl.addView(mButtonPlus, params2);
+			params3.leftMargin = 0;
+			params3.topMargin = 100;
+			rl.removeView(mButtonMinus);
+			rl.addView(mButtonMinus,params3);
+		}*/
+		
 	}
  
 //	@Override

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 public class NewsStandMapView extends MapView {
     private final NewsStand _ctx;
@@ -187,11 +188,12 @@ public class NewsStandMapView extends MapView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (_ctx.getPanel() == null || _refresh == null) {
+        if (_refresh == null) {
             return super.onInterceptTouchEvent(ev);
         }
         else {
-            _ctx.getPanel().hide();
+            //_ctx.getPanel().hide();
+        	//_ctx.getOverlay().hideAllBalloons();
         }
 
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -223,7 +225,6 @@ public class NewsStandMapView extends MapView {
     }
 
     public void updateMapWindow() {
-    	
         if (_refresh == null) {
             Toast.makeText(_ctx, "Refresh object is null.  Can't refresh", Toast.LENGTH_SHORT).show();
         } else {

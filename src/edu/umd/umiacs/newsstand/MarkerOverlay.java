@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.maps.OnSingleTapListener;
+import com.readystatesoftware.maps.TapControlledMapView;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
@@ -39,17 +41,19 @@ public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
     	super(defaultMarker, context.getMapView());
     	_ctx = context;
     	_ts = null;
-    	this.setShowClose(false);
-    	this.setShowDisclosure(true);
-    	this.setSnapToCenter(false);
+    	_ctx.setOverlay(this);
+    	this.setShowClose(true);
+    	this.setShowDisclosure(false);
+    	this.setSnapToCenter(true);
     }
     public MarkerOverlay(Drawable defaultMarker, TopStories context) {
     	super(defaultMarker, context.getMapView());
     	_ctx = null;
     	_ts = context;
-    	this.setShowClose(false);
-    	this.setShowDisclosure(true);
-    	this.setSnapToCenter(false);
+    	_ts.setOverlay(this);
+    	this.setShowClose(true);
+    	this.setShowDisclosure(false);
+    	this.setSnapToCenter(true);
     }
     // append new overlay object to mOverlays array
     public void addOverlay(OverlayItem overlay) {
@@ -104,8 +108,16 @@ public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
         return mOverlays.size();
     }
     
+    protected void onBalloonOpen(int index) {
+    	if (!(mOverlays.get(index).getMarker(0).isVisible())) {
+    		super.isVisible = false;
+    	} else
+    		super.isVisible = true;
+    }
+    
     protected boolean onBalloonTap(int index, OverlayItem oitem) {
     	//MarkerOverlayItem item = (MarkerOverlayItem)mOverlays.get(index);
+    	
     	String gaz = ((MarkerOverlayItem)oitem).getGazID();
     	
     	Context cur = _ctx;
@@ -114,6 +126,7 @@ public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
     	
         Intent i = new Intent(cur, ClusterViewer.class);
         i.putExtra("gaz_id", gaz);
+        //this.hideAllBalloons();
         cur.startActivity(i);
     	
     	return true;

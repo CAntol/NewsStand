@@ -44,6 +44,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private SeekBar mSlider;
 	private Refresh mRefresh;
 	private PopupPanel mPanel;
+	private MarkerOverlay mOverlay;
 	private ImageButton mButtonHome;
 	private ImageButton mButtonLocal;
 	private ImageButton mButtonWorld;
@@ -87,6 +88,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		// initialize main MapActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		mOverlay = null;
 
 		// initialize user preferences
 		initPrefs();
@@ -122,6 +125,16 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	
 	private void initOneHand(){
 		oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
+	}
+	
+	public MarkerOverlay getOverlay() {
+		return mOverlay;
+	}
+	
+	public void setOverlay(MarkerOverlay overlay) {
+		//if (mOverlay != null)
+		//	mOverlay.hideAllBalloons();
+		mOverlay = overlay;
 	}
 	
 	public Refresh getRefresh() {

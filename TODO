@@ -33,6 +33,10 @@ Done
 - Autoselect item in Top Stories Mode
 - Slimmer seekbar
 - Reinitialize map on resume to fix empty map problem
+	4/11
+- Added labels under buttons
+- Added buttonbar to Top Stories mode
+- New overlays (not yet colored/skinned)
 
 	--Previous--
 - Get Auto-Refresh working
@@ -49,14 +53,17 @@ Done
 
 Todo
 	--Chris--
--	Customize the overlay bubble (change color, hide when needed)
+-	Customize the overlay bubble (change color)
 -	Labels under buttons if needed
 -	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
 -	Video filter not displaying properly (might be server side, verify this)
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
--	Report Error page redirect
--	Determine if Home functionality is correct
+-	Report Error page redirect -> change to disabled
+-	Add bottombar to top stories mode except replace topstories button with map
+-	Top stories list view, highlight the selected topic
+-	Determine if Home functionality is correct (home sets current screen as the home/default screen)
+
 -	Implement mode switch (requires twitterstand implementation, photostand, etc..)
 
 	--Previous--

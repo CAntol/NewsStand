@@ -3,19 +3,19 @@
 	android:weightSum="1" android:layout_height="match_parent"
 	android:layout_width="wrap_content" android:orientation="vertical">
 	<RelativeLayout android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="wrap_content">
 		<edu.umd.umiacs.newsstand.TopStoriesListView
-			android:layout_height="194dp" android:layout_width="323dp"
+			android:layout_height="245dp" android:layout_width="fill_parent"
 			android:id="@+id/topStoryList"
 			android:scrollbarAlwaysDrawVerticalTrack="true" android:divider="@android:color/darker_gray"
 			android:background="@android:color/white" android:dividerHeight="0.5sp"
 			android:layout_below="@+id/topStoryView"
-			android:layout_alignParentBottom="true"
+			android:layout_alignParentBottom="false"
 			android:cacheColorHint="#00000000">
 		</edu.umd.umiacs.newsstand.TopStoriesListView>
 		<edu.umd.umiacs.newsstand.TopStoriesMapView
 			android:clickable="true" android:layout_width="fill_parent"
-			android:id="@+id/topStoryView" android:layout_height="300dp"
+			android:id="@+id/topStoryView" android:layout_height="275dp"
 			android:layout_alignParentTop="true"
 			android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
 			android:layout_alignParentLeft="true">
@@ -30,6 +30,96 @@
 			android:layout_alignBottom="@+id/topStoryView"
 			android:thumb="@drawable/icon_ball"
 			android:layout_centerHorizontal="true"></SeekBar>
+		
+		<LinearLayout android:layout_height="wrap_content"
+		     android:id="@+id/botbar2"
+		     android:layout_width="wrap_content"
+		     android:gravity="bottom"
+		     android:layout_alignParentBottom="true">
+
+       <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+       	<ImageButton android:id="@+id/buttonInfo2"
+		     android:src="@drawable/ic_menu_info"
+		     android:layout_width="48dp"
+		     android:layout_height="match_parent"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="Info" 
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+		 <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+		 <ImageButton android:id="@+id/buttonSearch2"
+		     android:src="@drawable/ic_menu_search"
+		     android:layout_width="53dp"
+		     android:layout_height="30dp"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="Search" 
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+		 <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+		 <ImageButton android:id="@+id/buttonSetting2"
+		     android:src="@drawable/ic_menu_settings1" android:layout_width="53dp"
+		     android:layout_height="match_parent"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="Settings"
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+		 <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+		 <ImageButton android:id="@+id/buttonSource2"
+		     android:src="@drawable/ic_menu_source" android:layout_width="53dp"
+		     android:layout_height="match_parent" android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="Sources" 
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+		 <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+		 <ImageButton android:id="@+id/buttonMode2" android:src="@drawable/ic_menu_mode1"
+		     android:layout_width="58dp"
+		      android:layout_height="match_parent"
+		      android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="TwitterStand"
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+		 <LinearLayout android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:orientation="vertical">
+		 <ImageButton android:id="@+id/buttonTopStory2" android:src="@drawable/ic_menu_mapmode"
+		     android:layout_width="53dp"
+		     android:layout_height="30dp"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <TextView android:layout_height="wrap_content"
+		     android:layout_width="fill_parent"
+		     android:text="Map" 
+		     android:textSize="10dp"
+		     android:gravity="center"/>
+		 </LinearLayout>
+   
+  </LinearLayout>
 	</RelativeLayout>
+	
+	
 
 </LinearLayout>
