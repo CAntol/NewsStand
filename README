@@ -4,3 +4,14 @@ Developed at the Center for Automation Research (http://www.cfar.umd.edu) of
 the Institude for Advanced Computer Studies (http://umiacs.umd.edu) in the
 Computer Science Department (http://www.cs.umd.edu) at the University of
 Maryland (http://www.umd.edu).
+
+***
+Uses modified MapViewBalloons library as Dependency
+NewsStand app Dependency: https://github.com/CAntol/MapViewBalloons
+Original: https://github.com/jgilfelt/android-mapviewballoons
+***
+
+***
+Requires a unique Google Map API key per computer.
+API Key needs to be specified in 'main' and 'topstories' layouts.
+***
