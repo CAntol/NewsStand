@@ -167,7 +167,12 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         super.onResume();
         //_mRefresh.clearSavedLocation();
         //mapUpdateForce();
+        try {
         ((TopStoryAdapter)_mListView.getAdapter()).clickFirstVisible(_mListView.getFirstVisiblePosition());
+        } catch (NullPointerException e) {
+        	//unable to access newsstand server
+        	Toast.makeText(getContext(), "Unable to access server", Toast.LENGTH_SHORT).show();
+        }
     }
     
 	/** Delayed call to map refresh function.

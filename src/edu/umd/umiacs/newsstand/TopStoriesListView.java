@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -54,6 +55,12 @@ public class TopStoriesListView extends ListView {
 				_ctx.getRefresh().isClick();
 				currentDisplay = tmp;
 			}
+		}
+		
+		//unverified
+		public void onItemClick(AdapterView<?> adaptView, View clickedView, int position, long id) {
+			clickedView.setSelected(true);
+			Log.i("DEBUG", "item selected");
 		}
 		
 		@Override
