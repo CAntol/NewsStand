@@ -40,6 +40,9 @@ Done
 	4/12
 - Error handling for Top Stories Mode
 - Beginning Top Stories list selector
+	4/18
+- Top stories list view highlights the selected topic
+- Left + Right handed mode on MapMode and TopStories mode
 
 	--Previous--
 - Get Auto-Refresh working
@@ -56,9 +59,6 @@ Done
 
 Todo
 	--Chris--
--	Left and right handed mode (newsstand and topstories mode) -> implemented, but doesn't update until app restarts
-	-> force change after setting change, add +/-/refresh to Top Stories Mode
--	Top stories list view, highlight the selected topic
 -	Customize the overlay bubble (change color)
 -	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
 -	Video filter not displaying properly (might be server side, verify this)

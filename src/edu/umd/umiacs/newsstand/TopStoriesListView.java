@@ -46,6 +46,7 @@ public class TopStoriesListView extends ListView {
 			this.currentDisplay = -1;
 		}
 		
+		/** @DEPRECATED */
 		public void clickFirstVisible(int pos) {
 			
 			int tmp = pos >= _mValues.size() ? pos - 1 : pos;
@@ -55,12 +56,19 @@ public class TopStoriesListView extends ListView {
 				_ctx.getRefresh().isClick();
 				currentDisplay = tmp;
 			}
+			
 		}
 		
-		//unverified
-		public void onItemClick(AdapterView<?> adaptView, View clickedView, int position, long id) {
-			clickedView.setSelected(true);
-			Log.i("DEBUG", "item selected");
+		public void select(View v, int pos) {
+			int tmp = pos >= _mValues.size() ? pos - 1 : pos;
+			
+			if (tmp != currentDisplay) {
+				_ctx.updateMapView(_mValues.get(tmp).getCluster_id());
+				_ctx.getRefresh().isClick();
+				currentDisplay = tmp;
+				v.setSelected(true);
+			}
+			
 		}
 		
 		@Override
@@ -111,6 +119,7 @@ public class TopStoriesListView extends ListView {
 			descrView.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v){
+					((View)((View) v.getParent()).getParent()).setSelected(true);
 					_ctx.updateMapView(cur.getCluster_id());
 					_ctx.getRefresh().isClick();
 				}});
@@ -158,7 +167,7 @@ public class TopStoriesListView extends ListView {
 		        	_ctx.startActivity(k);
 				}
 			});
-
+			
 			return rowView;
 		}
 		

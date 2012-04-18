@@ -44,6 +44,16 @@ public class TopStoriesMapView extends MapView{
 		}
 
 	}
+	
+	public void zoomInMap(){
+		_mMapController.zoomIn();
+		_ctx.mapUpdateForce(1000);
+    }
+    
+    public void zoomOutMap(){
+    	_mMapController.zoomOut();
+		_ctx.mapUpdateForce(1000);
+    }
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {

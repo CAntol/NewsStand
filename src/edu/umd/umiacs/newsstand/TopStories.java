@@ -71,6 +71,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	private ImageButton mButtonSource;
 	private ImageButton mButtonMode;
 	private ImageButton mButtonMap;
+	
+	private int oneHand;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -168,12 +170,23 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         //_mRefresh.clearSavedLocation();
         //mapUpdateForce();
         try {
-        ((TopStoryAdapter)_mListView.getAdapter()).clickFirstVisible(_mListView.getFirstVisiblePosition());
+        //((TopStoryAdapter)_mListView.getAdapter()).clickFirstVisible(_mListView.getFirstVisiblePosition());
+        	try {
+				int i = _mListView.getFirstVisiblePosition();
+				((TopStoryAdapter)_mListView.getAdapter()).select(_mListView.getChildAt(0), i);
+			} catch (NullPointerException e) {	}
         } catch (NullPointerException e) {
         	//unable to access newsstand server
         	Toast.makeText(getContext(), "Unable to access server", Toast.LENGTH_SHORT).show();
         }
+        
+        initOneHand();
+		initButtons();
     }
+    
+    private void initOneHand(){
+		oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
+	}
     
 	/** Delayed call to map refresh function.
 	 *
@@ -303,7 +316,11 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			public void onScrollStateChanged(AbsListView list, int scrollState) {
 				//only trigger when the scrolling stops
 				if (scrollState == SCROLL_STATE_IDLE) {
-					((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition() + 1);
+					//((TopStoryAdapter)list.getAdapter()).clickFirstVisible(list.getFirstVisiblePosition() + 1);
+					try {
+						int i = list.getFirstVisiblePosition() + 1;
+						((TopStoryAdapter)list.getAdapter()).select(list.getChildAt(1), i);
+					} catch (NullPointerException e) {	}
 				}
 			}
     		
@@ -478,27 +495,27 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	}
 	
 	private void initButtons(){
-		/*mButtonMinus = (ImageButton) findViewById(R.id.minus);
+		mButtonMinus = (ImageButton) findViewById(R.id.minus2);
 		mButtonMinus.setOnClickListener(new OnClickListener(){
 			
 			@Override
 			public void onClick(View v) {
-				//_mMapView.zoomOutMap();
+				_mMapView.zoomOutMap();
 			}
 			
 		});
 		
-		mButtonPlus = (ImageButton) findViewById(R.id.plus);
+		mButtonPlus = (ImageButton) findViewById(R.id.plus2);
 		mButtonPlus.setOnClickListener(new OnClickListener(){
 			
 			@Override
 			public void onClick(View v) {
-				//_mMapView.zoomInMap();
+				_mMapView.zoomInMap();
 			}
 			
 		});
 		
-		mButtonRefresh = (ImageButton) findViewById(R.id.refresh);
+		mButtonRefresh = (ImageButton) findViewById(R.id.refresh2);
 		mButtonRefresh.setOnClickListener(new OnClickListener(){
 			
 			@Override
@@ -506,7 +523,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 				mapUpdateForce(1000);
 			}
 			
-		});*/
+		});
 		
 		mButtonInfo = (ImageButton) findViewById(R.id.buttonInfo2);
 		mButtonInfo.setOnClickListener(new OnClickListener(){
@@ -576,7 +593,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			
 		});
 		
-		/*RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton2);
 		
 		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80,80);
 		RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(80,80);
@@ -618,7 +635,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			params3.topMargin = 100;
 			rl.removeView(mButtonMinus);
 			rl.addView(mButtonMinus,params3);
-		}*/
+		}
 		
 	}
  

@@ -133,8 +133,16 @@
 		     android:id="@+id/plus"
 		     android:src="@drawable/plus"
 		     android:background="@android:color/transparent"></ImageButton>
-		 <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/minus" android:src="@drawable/minus" android:background="@android:color/transparent"></ImageButton>
-		 <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/refresh" android:src="@drawable/refresh" android:background="@android:color/transparent"></ImageButton>
+		 <ImageButton android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:id="@+id/minus"
+		     android:src="@drawable/minus"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <ImageButton android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:id="@+id/refresh"
+		     android:src="@drawable/refresh"
+		     android:background="@android:color/transparent"></ImageButton>
 
    </RelativeLayout>
    <LinearLayout android:layout_height="wrap_content"

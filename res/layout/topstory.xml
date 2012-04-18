@@ -5,7 +5,7 @@
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 		<edu.umd.umiacs.newsstand.TopStoriesListView
-			android:layout_height="245dp" android:layout_width="fill_parent"
+			android:layout_height="255dp" android:layout_width="fill_parent"
 			android:id="@+id/topStoryList"
 			android:scrollbarAlwaysDrawVerticalTrack="true" android:divider="@android:color/darker_gray"
 			android:background="@android:color/white" android:dividerHeight="0.5sp"
@@ -13,23 +13,44 @@
 			android:layout_alignParentBottom="false"
 			android:cacheColorHint="#00000000">
 		</edu.umd.umiacs.newsstand.TopStoriesListView>
+		<RelativeLayout
+		    android:layout_below="@id/topStoryList"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:id = "@+id/relativeLayoutButton2">
 		<edu.umd.umiacs.newsstand.TopStoriesMapView
 			android:clickable="true" android:layout_width="fill_parent"
-			android:id="@+id/topStoryView" android:layout_height="275dp"
+			android:id="@+id/topStoryView" android:layout_height="265dp"
 			android:layout_alignParentTop="true"
 			android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
-			android:layout_alignParentLeft="true">
-		</edu.umd.umiacs.newsstand.TopStoriesMapView>
+			android:layout_alignParentLeft="true" />
+		<ImageButton android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:id="@+id/plus2"
+		     android:src="@drawable/plus"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <ImageButton android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:id="@+id/minus2"
+		     android:src="@drawable/minus"
+		     android:background="@android:color/transparent"></ImageButton>
+		 <ImageButton android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:id="@+id/refresh2"
+		     android:src="@drawable/refresh"
+		     android:background="@android:color/transparent"></ImageButton>
+		 
 		<SeekBar android:layout_width="150dp" android:max="100"
 		    android:paddingLeft="5dp" android:paddingRight="5dp"
-		    android:paddingBottom="10dp"
+		    android:paddingTop="10dp"
             android:maxHeight="10dp"
+            android:layout_alignTop="@id/topStoryView"
 			android:progress="50" android:saveEnabled="true"
 			android:layout_height="wrap_content" android:id="@+id/topStorySlider"
 			android:progressDrawable="@drawable/myseekbar"
-			android:layout_alignBottom="@+id/topStoryView"
 			android:thumb="@drawable/icon_ball"
 			android:layout_centerHorizontal="true"></SeekBar>
+		</RelativeLayout>
 		
 		<LinearLayout android:layout_height="wrap_content"
 		     android:id="@+id/botbar2"
