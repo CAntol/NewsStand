@@ -524,7 +524,7 @@ public class Refresh implements Runnable {
 				}
 				mNumExecuting--;
 			} else {
-				String errmsg = "Null marker feed...";
+				//String errmsg = "Null marker feed...";
 				Toast.makeText(_ctx, "Unable to access server", Toast.LENGTH_SHORT).show();
 			}
 		}

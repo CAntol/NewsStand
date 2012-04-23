@@ -10,17 +10,11 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsoluteLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -35,7 +29,7 @@ public class PopupPanel extends Overlay {
     private boolean isVisible=false;
 
     private final int POPUP_OFFSET = 15;
-    private final int MARKER_HEIGHT = 40;
+    //private final int MARKER_HEIGHT = 40;
     private final int RECT_MARGIN = 10;
     private final int TEXT_MARGIN = 20;
     private final int ARROW_HEIGHT = 5;

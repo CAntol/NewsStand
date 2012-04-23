@@ -12,14 +12,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.EditText;
@@ -34,7 +30,6 @@ import android.widget.TextView;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
-import com.readystatesoftware.maps.OnSingleTapListener;
 
 
 public class NewsStand extends MapActivity implements View.OnClickListener {

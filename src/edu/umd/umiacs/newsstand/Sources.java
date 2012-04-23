@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.util.Log;
-import android.view.Menu;
 import android.widget.Toast;
 
 public class Sources extends PreferenceActivity implements OnSharedPreferenceChangeListener{
