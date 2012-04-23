@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 
 
@@ -41,6 +42,12 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 		String value = pref.getAll().get(key).toString();
 		editor.putString(key, value);
 		editor.commit();
+	}
+	
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (getIntent().getBooleanExtra("ts", false))
+			Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show();
 	}
 
 }

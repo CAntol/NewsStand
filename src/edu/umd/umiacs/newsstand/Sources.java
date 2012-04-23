@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 public class Sources extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 
@@ -37,6 +38,12 @@ public class Sources extends PreferenceActivity implements OnSharedPreferenceCha
 		String value = sharedPreferences.getAll().get(key).toString();
 		editor.putString(key, value);
 		editor.commit();
+	}
+	
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (getIntent().getBooleanExtra("ts", false))
+			Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show();
 	}
 
 }

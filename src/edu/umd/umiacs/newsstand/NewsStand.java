@@ -337,6 +337,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(v.getContext(), Settings.class);
+				i.putExtra("ts", false);
 				startActivity(i);
 			}
 			
@@ -348,6 +349,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			@Override
 			public void onClick(View v) {
 				Intent j = new Intent(v.getContext(), Sources.class);
+				j.putExtra("ts", false);
 				startActivity(j);
 			}
 			
@@ -374,6 +376,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				
 				mMapView.updateMapWindow();
 				Intent k = new Intent(v.getContext(), TopStories.class);
+				Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
 				startActivity(k);
 			}
 			

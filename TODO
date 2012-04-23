@@ -45,6 +45,9 @@ Done
 - Left + Right handed mode on MapMode and TopStories mode
 	4/23
 - Customized overlay bubbles introduced
+- one handed mode for Top Stories updates on resume
+- Rank filter updates on resume for Top Stories
+- Loading indicator for Top Stories mode (as it has to reload the list on resume)
 
 	--Previous--
 - Get Auto-Refresh working
@@ -62,8 +65,7 @@ Done
 Todo
 	--Chris--
 -	Overlay bubbles to match color of iphone version
--	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
--	Video filter not displaying properly (might be server side, verify this)
+-	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
 -	Report Error page redirect -> change to disabled

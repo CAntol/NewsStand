@@ -167,6 +167,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
+        
         //_mRefresh.clearSavedLocation();
         //mapUpdateForce();
         try {
@@ -180,7 +181,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         	Toast.makeText(getContext(), "Unable to access server", Toast.LENGTH_SHORT).show();
         }
         
+        initPrefs();
         initOneHand();
+        initFeed();
+        initListView();
 		initButtons();
     }
     
@@ -554,6 +558,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(v.getContext(), Settings.class);
+				i.putExtra("ts", true);
 				startActivity(i);
 			}
 			
@@ -565,6 +570,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			@Override
 			public void onClick(View v) {
 				Intent j = new Intent(v.getContext(), Sources.class);
+				j.putExtra("ts", true);
 				startActivity(j);
 			}
 			
