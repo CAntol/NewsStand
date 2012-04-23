@@ -43,6 +43,8 @@ Done
 	4/18
 - Top stories list view highlights the selected topic
 - Left + Right handed mode on MapMode and TopStories mode
+	4/23
+- Customized overlay bubbles introduced
 
 	--Previous--
 - Get Auto-Refresh working
@@ -59,7 +61,7 @@ Done
 
 Todo
 	--Chris--
--	Customize the overlay bubble (change color)
+-	Overlay bubbles to match color of iphone version
 -	Reputable filter not functional for Top Stories Mode (SERVER SIDE)
 -	Video filter not displaying properly (might be server side, verify this)
 -	Top Stories image viewer (temp fix with cap)
