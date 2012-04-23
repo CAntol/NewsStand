@@ -99,7 +99,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		initOneHand();
 		initSlider();
 		initButtons();
-		//initPopupPanel();
+		initPopupPanel();
 		
 		// handle search requests
 		handleIntent(getIntent());
