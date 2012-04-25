@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,6 +29,7 @@ public class NewsStandMapView extends MapView {
     private GeoPoint home;
     private int latSpan;
     private int longSpan;
+    private SharedPreferences settings;
 
     public boolean fSetHome;
     private int oneHand;
@@ -37,6 +39,17 @@ public class NewsStandMapView extends MapView {
         _ctx = (NewsStand)context;
 
         initLocate();
+        
+        //get home from prefs
+        settings = _ctx.getSharedPreferences("HomePrefs", 0);
+        int hlat = settings.getInt("homeLat", 0);
+        int hlong = settings.getInt("homeLong", 0);
+        int hlatspan = settings.getInt("homeLatSpan", 0);
+        int hlongspan = settings.getInt("homeLongSpan", 0);
+        
+        home = new GeoPoint(hlat, hlong);
+        latSpan = hlatspan;
+        longSpan = hlongspan;
 
         //Resources resources = _ctx.getResources();
         //Drawable drawable = resources.getDrawable(R.drawable.marker_general);
@@ -63,6 +76,12 @@ public class NewsStandMapView extends MapView {
     	home = this.getMapCenter();
     	latSpan = this.getLatitudeSpan();
     	longSpan = this.getLongitudeSpan();
+    	SharedPreferences.Editor editor = settings.edit();
+    	editor.putInt("homeLat", home.getLatitudeE6());
+    	editor.putInt("homeLong", home.getLongitudeE6());
+    	editor.putInt("homeLatSpan", latSpan);
+    	editor.putInt("homeLongSpan", longSpan);
+    	editor.commit();
     }
     
     public GeoPoint getHome(){

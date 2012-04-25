@@ -234,7 +234,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private void initMapView() {
 		mMapView = (NewsStandMapView) findViewById(R.id.mapview);
 		mMapView.setBuiltInZoomControls(false);
-		mMapView.initfSetHome(mPrefsSetting.getBoolean("set_home", false));
+		//mMapView.initfSetHome(mPrefsSetting.getBoolean("set_home", false));
+		mMapView.initfSetHome(Boolean.parseBoolean(mPrefsSetting.getString("set_home", "false")));
 	}
 	
 	private void initButtons(){
@@ -576,7 +577,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	
 	public void updateHome()
 	{
-		mMapView.updateHome(mPrefsSetting.getBoolean("set_home", false));	
+		//mMapView.updateHome(mPrefsSetting.getBoolean("set_home", false));	
+		mMapView.updateHome(Boolean.parseBoolean(mPrefsSetting.getString("set_home", "false")));
 	}
 	
 	public void updateOneHand()

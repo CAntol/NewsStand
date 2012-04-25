@@ -48,6 +48,8 @@ Done
 - one handed mode for Top Stories updates on resume
 - Rank filter updates on resume for Top Stories
 - Loading indicator for Top Stories mode (as it has to reload the list on resume)
+	4/25
+- Implemented Home functionality
 
 	--Previous--
 - Get Auto-Refresh working
@@ -64,12 +66,15 @@ Done
 
 Todo
 	--Chris--
+-	Home redesign:
+	upon selecing Set Home, on Resume the preferences will be set for home
+	when preferences set, change the set home pref to false
+	if prefs are set, go home, otherwise go world
 -	Overlay bubbles to match color of iphone version
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
 -	Report Error page redirect -> change to disabled
--	Determine if Home functionality is correct (home sets current screen as the home/default screen)
 -	Implement mode switch (requires twitterstand implementation, photostand, etc..)
 
 	--Previous--

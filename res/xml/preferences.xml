@@ -55,7 +55,7 @@
   </PreferenceCategory>
   <PreferenceCategory android:title="Home">
       <CheckBoxPreference android:title="Set Home" 
-      android:defaultValue="false" android:key="set_home"></CheckBoxPreference>
+      android:defaultValue="false" android:key="set_home" />
   </PreferenceCategory>
   <PreferenceCategory android:title="One-Handed Preference">
       <ListPreference android:entries="@array/one_handed" android:entryValues="@array/one_handedValues" android:title="one handed preference" android:key="one_handed"></ListPreference>
