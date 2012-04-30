@@ -50,6 +50,8 @@ Done
 - Loading indicator for Top Stories mode (as it has to reload the list on resume)
 	4/25
 - Implemented Home functionality
+	4/30
+- Home redesign complete
 
 	--Previous--
 - Get Auto-Refresh working
@@ -66,15 +68,11 @@ Done
 
 Todo
 	--Chris--
--	Home redesign:
-	upon selecing Set Home, on Resume the preferences will be set for home
-	when preferences set, change the set home pref to false
-	if prefs are set, go home, otherwise go world
 -	Overlay bubbles to match color of iphone version
+-	If only one cluster result, follow it directly (skip the ListView screen)
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
--	Report Error page redirect -> change to disabled
 -	Implement mode switch (requires twitterstand implementation, photostand, etc..)
 
 	--Previous--
@@ -89,6 +87,6 @@ Todo
 - Implement Top Stories mode.
 
 Notes for building release version:
-- Change NewsStandMapView API Key from DEBUG to PROD in main.xml
+- Change NewsStandMapView API Key from DEBUG to PROD in main.xml (and topstory.xml)
 - Remove android:debuggable attribute from AndroidManifest.xml
 - Go to File > Export > Export Android Application and follow instructions

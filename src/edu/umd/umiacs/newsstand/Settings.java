@@ -22,6 +22,8 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 		show_all.setDisableDependentsState(true);
 		prefs = getSharedPreferences("preferences", 0);
         editor = prefs.edit();
+        CheckBoxPreference home = (CheckBoxPreference)getPreferenceScreen().findPreference("set_home");
+        home.setChecked(false);
 	}
 
 	@Override

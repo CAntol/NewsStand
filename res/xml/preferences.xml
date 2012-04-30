@@ -54,7 +54,7 @@
                     android:entries="@array/videos" android:entryValues="@array/videoValues"/>
   </PreferenceCategory>
   <PreferenceCategory android:title="Home">
-      <CheckBoxPreference android:title="Set Home" 
+      <CheckBoxPreference android:title="Set Home"
       android:defaultValue="false" android:key="set_home" />
   </PreferenceCategory>
   <PreferenceCategory android:title="One-Handed Preference">

@@ -111,7 +111,7 @@ public class Refresh implements Runnable {
 	private MarkerFeed getMarkers() {
 		// get map coordinates
 
-		_ctx.updateHome();
+	//	_ctx.updateHome();
 	//	_ctx.updateOneHand();
 		
 		String marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";

@@ -29,7 +29,6 @@ public class ClusterViewer extends ListActivity {
 		
 		String gaz_id = this.getIntent().getStringExtra("gaz_id");
 		_url = "http://newsstand.umiacs.umd.edu/news/xml_top_locations?gaz_id=" + gaz_id;
-		
         loadFeed();
         
 	}

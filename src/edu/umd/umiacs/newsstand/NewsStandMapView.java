@@ -31,7 +31,7 @@ public class NewsStandMapView extends MapView {
     private int longSpan;
     private SharedPreferences settings;
 
-    public boolean fSetHome;
+    private boolean homeIsSet;
     private int oneHand;
     
     public NewsStandMapView(Context context, AttributeSet attrs) {
@@ -42,6 +42,7 @@ public class NewsStandMapView extends MapView {
         
         //get home from prefs
         settings = _ctx.getSharedPreferences("HomePrefs", 0);
+        homeIsSet = settings.getBoolean("homeIsSet", false);
         int hlat = settings.getInt("homeLat", 0);
         int hlong = settings.getInt("homeLong", 0);
         int hlatspan = settings.getInt("homeLatSpan", 0);
@@ -60,10 +61,6 @@ public class NewsStandMapView extends MapView {
     	return _ctx;
     }
     
-    public void initfSetHome(boolean setHome){
-    	fSetHome = setHome;
-    }
-    
     public int getOneHand(){
     	return oneHand;
     }
@@ -72,16 +69,23 @@ public class NewsStandMapView extends MapView {
     	oneHand = OneHand;
     }
     
-    public void setHome(){
-    	home = this.getMapCenter();
-    	latSpan = this.getLatitudeSpan();
-    	longSpan = this.getLongitudeSpan();
-    	SharedPreferences.Editor editor = settings.edit();
-    	editor.putInt("homeLat", home.getLatitudeE6());
-    	editor.putInt("homeLong", home.getLongitudeE6());
-    	editor.putInt("homeLatSpan", latSpan);
-    	editor.putInt("homeLongSpan", longSpan);
-    	editor.commit();
+    public void setNewHome(boolean setHome) {
+    	if (setHome) {
+    		SharedPreferences.Editor editor = _ctx.getPrefsSetting().edit();
+    		if (!homeIsSet) {
+    			homeIsSet = true;
+    			editor.putBoolean("homeIsSet", true);
+    		}
+    		home = this.getMapCenter();
+        	latSpan = this.getLatitudeSpan();
+        	longSpan = this.getLongitudeSpan();
+        	editor.putInt("homeLat", home.getLatitudeE6());
+        	editor.putInt("homeLong", home.getLongitudeE6());
+        	editor.putInt("homeLatSpan", latSpan);
+        	editor.putInt("homeLongSpan", longSpan);
+    		editor.putString("set_home", "false");
+    		editor.commit();
+    	}
     }
     
     public GeoPoint getHome(){
@@ -179,7 +183,7 @@ public class NewsStandMapView extends MapView {
     }
 
     public void goHome(){
-    	if(fSetHome)
+    	if(homeIsSet)
     	{
     		goToLocation(home);
     		mapController.zoomToSpan(latSpan, longSpan);
@@ -255,18 +259,4 @@ public class NewsStandMapView extends MapView {
             _refresh.executeForce();
         }
     }
-
-	public void updateHome(boolean fSetHomeNew) {
-		// set fSetHome
-        if(fSetHomeNew && !fSetHome)
-        {
-        	fSetHome = true;
-        	setHome();
-        } 
-        else if (!fSetHomeNew && fSetHome)
-        {
-        	fSetHome = false;
-        	clearHome();
-        }
-	}
 }

@@ -206,10 +206,11 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		initPrefs();
 		//recreate the map to fix empty map display when started without internet
 		initMapView();
 		//refresh the preferences incase they were changed
-		initPrefs();
+		
 		
 		initOneHand();
 		initButtons();
@@ -234,8 +235,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private void initMapView() {
 		mMapView = (NewsStandMapView) findViewById(R.id.mapview);
 		mMapView.setBuiltInZoomControls(false);
-		//mMapView.initfSetHome(mPrefsSetting.getBoolean("set_home", false));
-		mMapView.initfSetHome(Boolean.parseBoolean(mPrefsSetting.getString("set_home", "false")));
+		mMapView.setNewHome(Boolean.parseBoolean(mPrefsSetting.getString("set_home", "false")));
 	}
 	
 	private void initButtons(){
@@ -573,12 +573,6 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				// Do nothing.
 			}
 		}).show();
-	}
-	
-	public void updateHome()
-	{
-		//mMapView.updateHome(mPrefsSetting.getBoolean("set_home", false));	
-		mMapView.updateHome(Boolean.parseBoolean(mPrefsSetting.getString("set_home", "false")));
 	}
 	
 	public void updateOneHand()
