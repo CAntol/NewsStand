@@ -52,6 +52,8 @@ Done
 - Implemented Home functionality
 	4/30
 - Home redesign complete
+	5/4
+- If only one cluster result, follow it directly (skip the ListView screen)
 
 	--Previous--
 - Get Auto-Refresh working
@@ -68,8 +70,8 @@ Done
 
 Todo
 	--Chris--
+-	Use matching icons for buttons and markers
 -	Overlay bubbles to match color of iphone version
--	If only one cluster result, follow it directly (skip the ListView screen)
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down

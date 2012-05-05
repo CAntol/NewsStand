@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class ClusterViewer extends ListActivity {
 	private List<Message> _mMessages;
 	private String _url;
+	private boolean checker;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class ClusterViewer extends ListActivity {
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.clusterview);
 		
+		checker = false;
 		
 		String gaz_id = this.getIntent().getStringExtra("gaz_id");
 		_url = "http://newsstand.umiacs.umd.edu/news/xml_top_locations?gaz_id=" + gaz_id;
@@ -53,6 +55,13 @@ public class ClusterViewer extends ListActivity {
 		}
 	}
 	
+	public void onResume() {
+		super.onResume();
+		if (checker) {
+			finish();
+		}
+	}
+	
 	
 	private void loadFeed(){
     	try{
@@ -64,6 +73,17 @@ public class ClusterViewer extends ListActivity {
 	    	}
 	    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.clusterrow,titles);
 	    	this.setListAdapter(adapter);
+	    	
+	    	if (_mMessages.size() == 1) {
+	    		checker = true;
+	    		String html = _mMessages.get(0).getMarkup();
+	    		if (html != null) {
+	    			Intent i = new Intent(this, HTMLWebView.class);
+	    			i = i.putExtra("html", html);
+	    			this.startActivity(i);
+	    		}
+	    	}
+	    		
 	    	
     	} catch (Throwable t){
     		Toast.makeText(this.getBaseContext(), "ClusterView loadFeed error, url : " + _url, Toast.LENGTH_SHORT);
