@@ -54,6 +54,8 @@ Done
 - Home redesign complete
 	5/4
 - If only one cluster result, follow it directly (skip the ListView screen)
+	5/7
+- Loading screen for Top Stories (with optimizations)
 
 	--Previous--
 - Get Auto-Refresh working

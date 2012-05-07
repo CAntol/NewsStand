@@ -372,7 +372,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				
 				mMapView.updateMapWindow();
 				Intent k = new Intent(v.getContext(), TopStories.class);
-				Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
 				startActivity(k);
 			}
 			

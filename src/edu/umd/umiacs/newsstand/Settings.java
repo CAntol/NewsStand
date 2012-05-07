@@ -47,8 +47,8 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 	
 	public void onBackPressed() {
 		super.onBackPressed();
-		if (getIntent().getBooleanExtra("ts", false))
-			Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show();
+		//if (getIntent().getBooleanExtra("ts", false))
+		//	Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show();
 	}
 
 }

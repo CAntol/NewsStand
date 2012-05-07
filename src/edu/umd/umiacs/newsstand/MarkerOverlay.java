@@ -112,9 +112,10 @@ public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
     	String gaz = ((MarkerOverlayItem)oitem).getGazID();
     	
     	Context cur = _ctx;
-    	if (cur == null)
+    	if (cur == null) {
     		cur = _ts;
-    	
+    		_ts.setReload(false);
+    	}
         Intent i = new Intent(cur, ClusterViewer.class);
         i.putExtra("gaz_id", gaz);
         //this.hideAllBalloons();

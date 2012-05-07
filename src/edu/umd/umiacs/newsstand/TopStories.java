@@ -9,12 +9,15 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +72,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	private ImageButton mButtonMap;
 	
 	private int oneHand;
+	private ProgressDialog progressDialog;
+	
+	private boolean firstLoad;
+	private boolean reload;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,28 +83,36 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		// initialize main MapActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.topstory);
-
+        
+        firstLoad = true;
+        reload = true;
 		mOverlay = null;
+		new LoadViewTask().execute();
 		
+
+		
+		/*
 		// initialize user preferences
 		initPrefs();
 		
 		// initialize UI
-		initMapView();
+		initMapView();	//slow
 		initSlider();
-        initPopupPanel();        
+        initPopupPanel();      
         initFeed();
-        initListView();
+        initListView();	//slow
         initButtons();
         
         // initialize Refresh processing object
         initRefresh();
         _mMapView.setRefresh(_mRefresh);
+        
 
         // handle search requests
         handleIntent(getIntent());
         
-        fSetHome = mPrefsSetting.getString("set_home", "false").equals("true");        
+        fSetHome = mPrefsSetting.getString("set_home", "false").equals("true"); 
+        */
 	}
 	
 	public MarkerOverlay getOverlay() {
@@ -164,6 +179,11 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     public void onResume() {
         super.onResume();
         
+        if (!firstLoad && reload) {
+        	new LoadViewTask().execute();
+        }
+        
+        /*
         //_mRefresh.clearSavedLocation();
         //mapUpdateForce();
         try {
@@ -177,11 +197,15 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         	Toast.makeText(getContext(), "Unable to access server", Toast.LENGTH_SHORT).show();
         }
         
-        initPrefs();
-        initOneHand();
-        initFeed();
-        initListView();
-		initButtons();
+        if (firstLoad) {
+        	firstLoad = false;
+        } else {
+        	initPrefs();
+        	initOneHand();
+        	initFeed();
+        	initListView();
+        	initButtons();
+        }*/
     }
     
     private void initOneHand(){
@@ -251,6 +275,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
     	return false;
     } 
+    
+    public void setReload(boolean boo) {
+    	reload = boo;
+    }
 
     public void addSearch(String query) {
         mSearchQuery = query;
@@ -554,7 +582,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(v.getContext(), Settings.class);
-				i.putExtra("ts", true);
+				reload = true;
+				//i.putExtra("ts", true);
 				startActivity(i);
 			}
 			
@@ -566,7 +595,8 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			@Override
 			public void onClick(View v) {
 				Intent j = new Intent(v.getContext(), Sources.class);
-				j.putExtra("ts", true);
+				reload = true;
+				//j.putExtra("ts", true);
 				startActivity(j);
 			}
 			
@@ -640,8 +670,58 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		}
 		
 	}
- 
-//	@Override
-//	public void onBackPressed(){
-//	}
+	
+	private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
+		
+		protected void onPreExecute() {
+		    progressDialog = ProgressDialog.show(TopStories.this,"Loading...",  
+		            "Loading TopStories List, please wait...", false, false);   
+		}
+
+		protected Void doInBackground(Void... params) {
+			synchronized (this) {
+				initPrefs();
+				if (firstLoad) {
+					Looper.prepare();
+					initMapView();
+					initSlider();
+					initPopupPanel();
+				}
+				initOneHand();
+				initFeed();
+				runOnUiThread(new Runnable() {
+					public void run() {
+						initListView();
+						initButtons();
+					}
+				});
+				if (firstLoad) {
+					initRefresh();
+					_mMapView.setRefresh(_mRefresh);
+					handleIntent(getIntent());
+					fSetHome = mPrefsSetting.getString("set_home", "false").equals("true");
+				}
+				publishProgress(100);
+			}
+			return null;
+		}
+		
+		protected void onProgressUpdate(Integer... values) {
+			progressDialog.setProgress(values[0]);
+		}
+		
+		protected void onPostExecute(Void result) {
+			progressDialog.dismiss();
+			try {
+				try {
+					int i = _mListView.getFirstVisiblePosition();
+					((TopStoryAdapter)_mListView.getAdapter()).select(_mListView.getChildAt(0), i);
+				} catch (NullPointerException e) {	}
+			} catch (NullPointerException e) {
+				Toast.makeText(getContext(), "Unable to access server", Toast.LENGTH_SHORT).show();
+			}
+			firstLoad = false;
+		}
+
+	}
 }
