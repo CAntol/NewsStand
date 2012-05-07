@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="#303030"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <RelativeLayout
@@ -176,7 +177,7 @@
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
 		 <ImageButton android:id="@+id/buttonSearch"
-		     android:src="@drawable/ic_menu_search"
+		     android:src="@drawable/new_search"
 		     android:layout_width="53dp"
 		     android:layout_height="30dp"
 		     android:background="@android:color/transparent"></ImageButton>
