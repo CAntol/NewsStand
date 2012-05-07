@@ -56,6 +56,7 @@ Done
 - If only one cluster result, follow it directly (skip the ListView screen)
 	5/7
 - Loading screen for Top Stories (with optimizations)
+- Acquired new icons, added in a few
 
 	--Previous--
 - Get Auto-Refresh working
@@ -72,7 +73,7 @@ Done
 
 Todo
 	--Chris--
--	Use matching icons for buttons and markers
+-	Match the icons and colors
 -	Overlay bubbles to match color of iphone version
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
