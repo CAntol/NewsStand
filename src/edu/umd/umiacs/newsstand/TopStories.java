@@ -115,6 +115,20 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         */
 	}
 	
+	public void onWindowFocusChanged(boolean hasFocus) {
+		//get screen height
+		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+		//get size of listview
+		//int topHeight = ((LinearLayout)findViewById(R.layout.topstorylistview)).getHeight();
+		int topHeight = _mListView.getHeight();
+		//get size of bottombar
+		int botHeight = ((LinearLayout)findViewById(R.id.botbar2)).getHeight();
+		//set mapview size to height - topbar - bottombar
+		LayoutParams p = _mMapView.getLayoutParams();
+		//this adjusts the height without making a call to setlayoutparams
+		p.height = screenHeight - topHeight - botHeight;
+	}
+	
 	public MarkerOverlay getOverlay() {
 		return mOverlay;
 	}

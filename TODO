@@ -57,6 +57,8 @@ Done
 	5/7
 - Loading screen for Top Stories (with optimizations)
 - Acquired new icons, added in a few
+	5/9
+- Run on tablet, some scaling
 
 	--Previous--
 - Get Auto-Refresh working
@@ -73,6 +75,7 @@ Done
 
 Todo
 	--Chris--
+-	Scaling for large screens (button size, center buttons, +/- signs to hug side, no handed mode for tablet)
 -	Match the icons and colors
 -	Overlay bubbles to match color of iphone version
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
