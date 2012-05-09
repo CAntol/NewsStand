@@ -59,6 +59,7 @@ Done
 - Acquired new icons, added in a few
 	5/9
 - Run on tablet, some scaling
+- Overlay bubble coloring
 
 	--Previous--
 - Get Auto-Refresh working
@@ -77,7 +78,7 @@ Todo
 	--Chris--
 -	Scaling for large screens (button size, center buttons, +/- signs to hug side, no handed mode for tablet)
 -	Match the icons and colors
--	Overlay bubbles to match color of iphone version
+-	Close overlay bubbles when anything else is touched
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
