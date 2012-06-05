@@ -114,7 +114,8 @@ public class MarkerOverlay extends BalloonItemizedOverlay<OverlayItem> {
     	Context cur = _ctx;
     	if (cur == null) {
     		cur = _ts;
-    		_ts.setReload(false);
+    		if (cur != null)
+    			_ts.setReload(false);
     	}
         Intent i = new Intent(cur, ClusterViewer.class);
         i.putExtra("gaz_id", gaz);

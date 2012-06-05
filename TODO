@@ -60,6 +60,8 @@ Done
 	5/9
 - Run on tablet, some scaling
 - Overlay bubble coloring
+	6/4
+- Implement TwitterStand
 
 	--Previous--
 - Get Auto-Refresh working
@@ -76,6 +78,7 @@ Done
 
 Todo
 	--Chris--
+-	Display clearly which mode you are in
 -	Scaling for large screens (button size, center buttons, +/- signs to hug side, no handed mode for tablet)
 -	Match the icons and colors
 -	Close overlay bubbles when anything else is touched

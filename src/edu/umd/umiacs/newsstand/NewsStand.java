@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -58,7 +57,11 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private LinearLayout mSearchLayout;
 	private TextView mSearchView;
 	
+	private int mode;
 	private int oneHand;
+	public final static int NEWSSTAND = 0;
+	public final static int TWITTERSTAND = 1;
+	public final static int PHOTOSTAND = 2;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -83,6 +86,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		// initialize main MapActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		mode = NEWSSTAND;
 		
 		mOverlay = null;
 
@@ -353,9 +358,21 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mButtonMode = (ImageButton) findViewById(R.id.buttonMode);
 		mButtonMode.setOnClickListener(new OnClickListener(){
 		
-		//	@Override
+			@Override
 			public void onClick(View v) {
-				Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
+				if (mode == 0) {
+					mode = 1;
+					((TextView) findViewById(R.id.mode_text)).setText("PhotoStand");
+				} else if (mode == 1) {
+					mode = 2;
+					((TextView) findViewById(R.id.mode_text)).setText("NewsStand");
+				} else if (mode == 2) {
+					mode = 0;
+					((TextView) findViewById(R.id.mode_text)).setText("TwitterStand");
+				}
+				mRefresh.clearSavedLocation();
+				mapUpdateForce();
 			}
 		
 		});
@@ -373,6 +390,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				mMapView.updateMapWindow();
 				Intent k = new Intent(v.getContext(), TopStories.class);
 				//Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
+				k.putExtra("mode", mode);
 				startActivity(k);
 			}
 			
@@ -573,6 +591,10 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				// Do nothing.
 			}
 		}).show();
+	}
+	
+	public int getMode() {
+		return mode;
 	}
 	
 	public void updateOneHand()

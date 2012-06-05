@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 public class TopStoriesListView extends ListView {
 	private TopStories _ctx;
+	private int mode;
 	final BitSet _mEnabled = new BitSet();
 
 	private TopStoryAdapter _mAdapter;
@@ -25,6 +26,7 @@ public class TopStoriesListView extends ListView {
 	public TopStoriesListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		_ctx = (TopStories)context;
+		mode = _ctx.getMode();
 	}	
 
 	public void initAdapter(TopStoriesFeed feed){
@@ -158,7 +160,11 @@ public class TopStoriesListView extends ListView {
 				@Override
 				public void onClick(View v){
 		        	Intent k = new Intent(_ctx, NewsStandWebView.class);
-		        	String url = "http://newsstand.umiacs.umd.edu/news/story_light?cluster_id=";
+		        	String url = "";
+		        	if (mode == NewsStand.TWITTERSTAND)
+		        		url = "http://twitterstand.umiacs.umd.edu/news/story_light?cluster_id=";
+		        	else
+		        		url = "http://newsstand.umiacs.umd.edu/news/story_light?cluster_id=";
 		        	url += cur.getCluster_id();
 		        	url += "&limit=30&page=1";
 		        	k = k.putExtra("url", url);

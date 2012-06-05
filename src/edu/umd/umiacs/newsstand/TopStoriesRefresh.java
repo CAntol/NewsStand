@@ -100,7 +100,11 @@ public class TopStoriesRefresh implements Runnable {
 	}
 
 	public MarkerFeed getMarkers() {
-		String marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?cluster_id=";
+		String marker_url = "";
+		if (_ctx.getMode() == 1) {
+			marker_url = "http://twitterstand.umiacs.umd.edu/news/xml_map?cluster_id=";
+		} else
+			marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?cluster_id=";
 
 		marker_url+=cluster_id;
 

@@ -72,6 +72,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	private ImageButton mButtonMap;
 	
 	private int oneHand;
+	private int mode;
 	private ProgressDialog progressDialog;
 	
 	private boolean firstLoad;
@@ -87,6 +88,14 @@ public class TopStories extends MapActivity implements View.OnClickListener{
         firstLoad = true;
         reload = true;
 		mOverlay = null;
+		mode = getIntent().getIntExtra("mode", 0);
+		if (mode == NewsStand.TWITTERSTAND) {
+			((TextView) findViewById(R.id.mode_text2)).setText("PhotoStand");
+		} else if (mode == NewsStand.PHOTOSTAND) {
+			((TextView) findViewById(R.id.mode_text2)).setText("NewsStand");
+		} else if (mode == NewsStand.NEWSSTAND) {
+			((TextView) findViewById(R.id.mode_text2)).setText("TwitterStand");
+		}
 		new LoadViewTask().execute();
 		
 
@@ -188,6 +197,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
             	addSearch(query);
         }
     }
+   
+   public int getMode() {
+	   return mode;
+   }
 
     @Override
     public void onResume() {
@@ -394,7 +407,12 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	///////////////////////////////////
 	private TopStoriesFeed getFeed() {
 		try {
-			String topStory = "http://newsstand.umiacs.umd.edu/news/iphone_results?a=5";
+			String topStory = "";
+			
+			if (mode == 1) {
+				topStory = "http://twitterstand.umiacs.umd.edu/news/iphone_results?a=5";
+			} else
+				topStory = "http://newsstand.umiacs.umd.edu/news/iphone_results?a=5";
 			
 			if (this.mSearchQuery != null && this.mSearchQuery != "") {
 				topStory += String.format("&search=%s", this.mSearchQuery);
@@ -620,7 +638,17 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		
 		//	@Override
 			public void onClick(View v) {
-				Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
+				if (mode == 0) {
+					mode = 1;
+					((TextView) findViewById(R.id.mode_text2)).setText("PhotoStand");
+				} else if (mode == 1) {
+					mode = 2;
+					((TextView) findViewById(R.id.mode_text2)).setText("NewsStand");
+				} else if (mode == 2) {
+					mode = 0;
+					((TextView) findViewById(R.id.mode_text2)).setText("TwitterStand");
+				}
+				new LoadViewTask().execute();
 			}
 		
 		});

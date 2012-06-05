@@ -46,6 +46,9 @@ public class PopupPanel extends Overlay {
     	if(mode  == 0){
     		_ctx = (NewsStand)ctx;
     		_ts = null;
+    	} else if (mode == 2) {
+    		_ctx = ctx;
+    		_ts = null;
     	}
     	else{
     		_ctx = null;

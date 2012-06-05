@@ -114,7 +114,17 @@ public class Refresh implements Runnable {
 	//	_ctx.updateHome();
 	//	_ctx.updateOneHand();
 		
-		String marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";
+		int mode = _ctx.getMode();
+		
+		String marker_url = "";
+		
+		if (mode == NewsStand.NEWSSTAND)
+			marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";
+		else if (mode == NewsStand.TWITTERSTAND)
+			marker_url = "http://twitterstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";
+		else //change this for photostand?
+			marker_url = "http://newsstand.umiacs.umd.edu/news/xml_map?lat_low=%f&lat_high=%f&lon_low=%f&lon_high=%f";
+		
 		marker_url = String.format(marker_url,
 							mLatL / 1E6, mLatH / 1E6,
 							mLonL / 1E6, mLonH / 1E6);
@@ -126,6 +136,7 @@ public class Refresh implements Runnable {
 
 		//sourcesParam, rankParam, layerParam, topicParam, imagesParam, videosParam, boundParam, countryParam;
 		// sourcesParam - 
+		if (mode == 0) {
 		marker_url += sourceQuery();
 		
 		// rankParam - 
@@ -136,7 +147,7 @@ public class Refresh implements Runnable {
 
 		// topicParam - topics
 		marker_url += topicQuery();
-
+		}
 		// imagesParam - num of images
 		marker_url += imageQuery();
 		

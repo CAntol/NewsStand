@@ -220,6 +220,7 @@
 		      android:layout_height="match_parent"
 		      android:background="@android:color/transparent"></ImageButton>
 		 <TextView android:layout_height="wrap_content"
+		     android:id="@+id/mode_text"
 		     android:layout_width="fill_parent"
 		     android:text="TwitterStand"
 		     android:textSize="10dp"
