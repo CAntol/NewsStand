@@ -62,6 +62,10 @@ Done
 - Overlay bubble coloring
 	6/4
 - Implement TwitterStand
+	6/15
+- Removed one-handed preference from settings when viewed from a Tablet
+- Orientation fix (force portrait in all activities)
+- open web pages in app web viewer instead of default browser
 
 	--Previous--
 - Get Auto-Refresh working
@@ -79,13 +83,15 @@ Done
 Todo
 	--Chris--
 -	Display clearly which mode you are in
--	Scaling for large screens (button size, center buttons, +/- signs to hug side, no handed mode for tablet)
+-	Photostand
+-	open images/video in custom viewer (see email)
+-	for image viewer, single click enlarges image and displays caption beneath it
+-	Scaling for large screens (button size, center buttons, +/- signs to hug side)
 -	Match the icons and colors
 -	Close overlay bubbles when anything else is touched
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
 -	Top Stories image viewer (temp fix with cap)
 	-> attempt to scale the bitmap size down
--	Implement mode switch (requires twitterstand implementation, photostand, etc..)
 
 	--Previous--
 - Find appropriate bubbles to use when tapping on cluster markers

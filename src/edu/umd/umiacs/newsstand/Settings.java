@@ -5,6 +5,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 
 
 
@@ -23,6 +24,11 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
         editor = prefs.edit();
         CheckBoxPreference home = (CheckBoxPreference)getPreferenceScreen().findPreference("set_home");
         home.setChecked(false);
+        
+        //IF TABLET
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize)
+        	getPreferenceScreen().removePreference(getPreferenceScreen().findPreference("one_handed_cat"));
 	}
 
 	@Override

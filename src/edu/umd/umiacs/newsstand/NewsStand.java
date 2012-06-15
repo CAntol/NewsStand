@@ -600,6 +600,10 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	public void updateOneHand()
 	{
 		int oneHandNew = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
+		
+		if (getResources().getBoolean(R.bool.isTablet))
+			oneHandNew = 0;
+		
 		if (oneHandNew != oneHand)
 		{
 			RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton);

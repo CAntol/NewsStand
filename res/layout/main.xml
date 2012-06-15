@@ -106,7 +106,7 @@
 	        android:id="@+id/mapview"
 	        android:layout_width="fill_parent"
 	        android:clickable="true"
-	        android:apiKey="0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg"
+	        android:apiKey="0GqO400JwyowHBfvGrwLWSewbYLjhd5fQRgNRpw"
 	        android:layout_alignParentRight="true"
 	        android:layout_height="400dp"/>
  	    <!-- with titlebar and notificationbar, layout_height should be 380 -->
@@ -117,6 +117,8 @@
 	        		0M-bdp7P5_Yu0NgGQ_AV3P0IJnUumGPH7bAH6xg
 				WIN-LAPTOP:
 					0M-bdp7P5_Ytn6rkjKnySzH6ZHHikz236XweUDA
+				thinkpad:
+					0GqO400JwyowHBfvGrwLWSewbYLjhd5fQRgNRpw
 	        	
 	        	old:
 	        	DEBUG android:apiKey="0EVwj7uHiufYj8esOOP16sVYsWdeHgznxrHZ-ww"
