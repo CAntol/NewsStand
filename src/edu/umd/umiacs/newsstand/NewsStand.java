@@ -57,6 +57,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private LinearLayout mSearchLayout;
 	private TextView mSearchView;
 	
+	private int screenHeight = 0, screenWidth = 0;
 	private int mode;
 	private int oneHand;
 	public final static int NEWSSTAND = 0;
@@ -98,7 +99,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		initMapView();
 		initOneHand();
 		initSlider();
-		initButtons();
+		//initButtons();
 		initPopupPanel();
 		
 		// handle search requests
@@ -112,7 +113,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	//resize map
 	public void onWindowFocusChanged(boolean hasFocus) {
 		//get screen height
-		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+		screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 		//get size of topbar
 		int topHeight = ((LinearLayout)findViewById(R.id.topbar)).getHeight();
 		//get size of bottombar
@@ -121,10 +122,16 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		LayoutParams p = mMapView.getLayoutParams();
 		//this adjusts the height without making a call to setlayoutparams
 		p.height = screenHeight - topHeight - botHeight;
+		
+		screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+		initButtons();
 	}
 	
 	private void initOneHand(){
-		oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
+		if (getResources().getBoolean(R.bool.isTablet))
+			oneHand = 0;
+		else
+			oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
 	}
 	
 	public MarkerOverlay getOverlay() {
@@ -364,12 +371,15 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				if (mode == 0) {
 					mode = 1;
 					((TextView) findViewById(R.id.mode_text)).setText("PhotoStand");
+					((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
 				} else if (mode == 1) {
 					mode = 2;
 					((TextView) findViewById(R.id.mode_text)).setText("NewsStand");
+					((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
 				} else if (mode == 2) {
 					mode = 0;
 					((TextView) findViewById(R.id.mode_text)).setText("TwitterStand");
+					((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
 				}
 				mRefresh.clearSavedLocation();
 				mapUpdateForce();
@@ -405,11 +415,13 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			params1.leftMargin = params1.topMargin = 0;
 			rl.removeView(mButtonRefresh);
 			rl.addView(mButtonRefresh, params1);
-			params2.leftMargin = 400;
+			//params2.leftMargin = 400;
+			params2.leftMargin = screenWidth-50;
 			params2.topMargin = 0;
 			rl.removeView(mButtonPlus);
 			rl.addView(mButtonPlus, params2);
-			params3.leftMargin = 400;
+			//params3.leftMargin = 400;
+			params3.leftMargin = screenWidth-50;
 			params3.topMargin = 100;
 			rl.removeView(mButtonMinus);
 			rl.addView(mButtonMinus,params3);
@@ -615,11 +627,13 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 				params1.leftMargin = params1.topMargin = 0;
 				rl.removeView(mButtonRefresh);
 				rl.addView(mButtonRefresh, params1);
-				params2.leftMargin = 400;
+				//params2.leftMargin = 400;
+				params2.leftMargin = screenWidth-50;
 				params2.topMargin = 0;
 				rl.removeView(mButtonPlus);
 				rl.addView(mButtonPlus, params2);
-				params3.leftMargin = 400;
+				//params3.leftMargin = 400;
+				params3.leftMargin = screenWidth-50;
 				params3.topMargin = 100;
 				rl.removeView(mButtonMinus);
 				rl.addView(mButtonMinus,params3);

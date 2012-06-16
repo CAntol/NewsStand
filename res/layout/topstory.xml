@@ -51,6 +51,16 @@
 			android:progressDrawable="@drawable/myseekbar"
 			android:thumb="@drawable/icon_ball"
 			android:layout_centerHorizontal="true"></SeekBar>
+		
+		<TextView
+	        android:id="@+id/current_mode2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/topStorySlider"
+	        android:layout_centerHorizontal="true"
+	        android:paddingTop="10dp"
+	        android:textColor="@color/red"
+	        android:text="NewsStand"/>
 		</RelativeLayout>
 		
 		<LinearLayout android:layout_height="wrap_content"

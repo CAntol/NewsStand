@@ -77,6 +77,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	
 	private boolean firstLoad;
 	private boolean reload;
+	private int screenHeight = 0, screenWidth = 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -91,10 +92,13 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 		mode = getIntent().getIntExtra("mode", 0);
 		if (mode == NewsStand.TWITTERSTAND) {
 			((TextView) findViewById(R.id.mode_text2)).setText("PhotoStand");
+			((TextView) findViewById(R.id.current_mode2)).setText("TwitterStand");
 		} else if (mode == NewsStand.PHOTOSTAND) {
 			((TextView) findViewById(R.id.mode_text2)).setText("NewsStand");
+			((TextView) findViewById(R.id.current_mode2)).setText("PhotoStand");
 		} else if (mode == NewsStand.NEWSSTAND) {
 			((TextView) findViewById(R.id.mode_text2)).setText("TwitterStand");
+			((TextView) findViewById(R.id.current_mode2)).setText("NewsStand");
 		}
 		new LoadViewTask().execute();
 		
@@ -125,17 +129,17 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 	}
 	
 	public void onWindowFocusChanged(boolean hasFocus) {
-		//get screen height
-		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-		//get size of listview
-		//int topHeight = ((LinearLayout)findViewById(R.layout.topstorylistview)).getHeight();
+		screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+		screenWidth = getWindowManager().getDefaultDisplay().getWidth();
 		int topHeight = _mListView.getHeight();
-		//get size of bottombar
 		int botHeight = ((LinearLayout)findViewById(R.id.botbar2)).getHeight();
-		//set mapview size to height - topbar - bottombar
+		LayoutParams lp = _mListView.getLayoutParams();
 		LayoutParams p = _mMapView.getLayoutParams();
-		//this adjusts the height without making a call to setlayoutparams
-		p.height = screenHeight - topHeight - botHeight;
+		int listHeight = (screenHeight - botHeight) / 2;
+		lp.height = listHeight;
+		p.height = screenHeight - botHeight - listHeight;
+		
+		initButtons();
 	}
 	
 	public MarkerOverlay getOverlay() {
@@ -236,7 +240,10 @@ public class TopStories extends MapActivity implements View.OnClickListener{
     }
     
     private void initOneHand(){
-		oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
+    	if (getResources().getBoolean(R.bool.isTablet))
+			oneHand = 0;
+		else
+			oneHand = Integer.valueOf (mPrefsSetting.getString("one_handed", "0"));
 	}
     
 	/** Delayed call to map refresh function.
@@ -641,12 +648,15 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 				if (mode == 0) {
 					mode = 1;
 					((TextView) findViewById(R.id.mode_text2)).setText("PhotoStand");
+					((TextView) findViewById(R.id.current_mode2)).setText("TwitterStand");
 				} else if (mode == 1) {
 					mode = 2;
 					((TextView) findViewById(R.id.mode_text2)).setText("NewsStand");
+					((TextView) findViewById(R.id.current_mode2)).setText("PhotoStand");
 				} else if (mode == 2) {
 					mode = 0;
 					((TextView) findViewById(R.id.mode_text2)).setText("TwitterStand");
+					((TextView) findViewById(R.id.current_mode2)).setText("NewsStand");
 				}
 				new LoadViewTask().execute();
 			}
@@ -676,11 +686,13 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 			params1.leftMargin = params1.topMargin = 0;
 			rl.removeView(mButtonRefresh);
 			rl.addView(mButtonRefresh, params1);
-			params2.leftMargin = 400;
+			//params2.leftMargin = 400;
+			params2.leftMargin = screenWidth-50;
 			params2.topMargin = 0;
 			rl.removeView(mButtonPlus);
 			rl.addView(mButtonPlus, params2);
-			params3.leftMargin = 400;
+			//params3.leftMargin = 400;
+			params3.leftMargin = screenWidth-50;
 			params3.topMargin = 100;
 			rl.removeView(mButtonMinus);
 			rl.addView(mButtonMinus,params3);
@@ -734,7 +746,7 @@ public class TopStories extends MapActivity implements View.OnClickListener{
 				runOnUiThread(new Runnable() {
 					public void run() {
 						initListView();
-						initButtons();
+						//initButtons();
 					}
 				});
 				if (firstLoad) {

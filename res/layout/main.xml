@@ -123,6 +123,16 @@
 	        	old:
 	        	DEBUG android:apiKey="0EVwj7uHiufYj8esOOP16sVYsWdeHgznxrHZ-ww"
 	             PROD  android:apiKey="0tFo30MjqLT5s2jVzmkQzfL9dm4XXuUM-ope0Iw" -->
+	    <TextView
+	        android:id="@+id/current_mode"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:paddingTop="10dp"
+	        android:textColor="@color/red"
+	        android:text="NewsStand"/>
+	             
 	    <LinearLayout
 	        android:id="@+id/search_options"
 	        android:layout_width="wrap_content"

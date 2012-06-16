@@ -79,14 +79,14 @@ Done
   - Added display of searched term
   - Reposition display of searched term
   - Allow user to clear search
+  - Clearly display which mode you are currently in
 
 Todo
 	--Chris--
--	Display clearly which mode you are in
 -	Photostand
 -	open images/video in custom viewer (see email)
 -	for image viewer, single click enlarges image and displays caption beneath it
--	Scaling for large screens (button size, center buttons, +/- signs to hug side)
+-	Adjust button (bottombar and topbar) placement accordingly for different screen sizes
 -	Match the icons and colors
 -	Close overlay bubbles when anything else is touched
 -	Video filter affects only markers, not cluster results. how to fix? does this require fix?
