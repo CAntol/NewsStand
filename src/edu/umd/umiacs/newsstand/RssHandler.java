@@ -6,13 +6,14 @@ import java.util.List;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import edu.umd.umiacs.newsstand.FeedParser;
 
 public class RssHandler extends DefaultHandler{
 	private List<Message> messages;
 	private Message currentMessage;
 	private StringBuilder builder;
-	
+
 	public List<Message> getMessages(){
 		return this.messages;
 	}

@@ -1,5 +1,6 @@
 package edu.umd.umiacs.newsstand;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
+
+import edu.umd.umiacs.newsstand.Source.SourceType;
 
 
 public class NewsStand extends MapActivity implements View.OnClickListener {
@@ -63,6 +66,8 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	public final static int NEWSSTAND = 0;
 	public final static int TWITTERSTAND = 1;
 	public final static int PHOTOSTAND = 2;
+	
+	private ArrayList<Source> feedSources;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -101,6 +106,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		initSlider();
 		//initButtons();
 		initPopupPanel();
+		initSources();
 		
 		// handle search requests
 		handleIntent(getIntent());
@@ -288,8 +294,9 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		
 		
 		mButtonMinus = (ImageButton) findViewById(R.id.minus);
+		mButtonMinus.setAlpha(128);
 		mButtonMinus.setOnClickListener(new OnClickListener(){
-			
+		
 			@Override
 			public void onClick(View v) {
 				mMapView.zoomOutMap();
@@ -298,6 +305,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		});
 		
 		mButtonPlus = (ImageButton) findViewById(R.id.plus);
+		mButtonPlus.setAlpha(128);
 		mButtonPlus.setOnClickListener(new OnClickListener(){
 			
 			@Override
@@ -308,6 +316,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		});
 		
 		mButtonRefresh = (ImageButton) findViewById(R.id.refresh);
+		mButtonRefresh.setAlpha(128);
 		mButtonRefresh.setOnClickListener(new OnClickListener(){
 			
 			@Override
@@ -358,6 +367,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			public void onClick(View v) {
 				Intent j = new Intent(v.getContext(), Sources.class);
 				j.putExtra("ts", false);
+				j.putExtra("feedSources", feedSources);
 				startActivity(j);
 			}
 			
@@ -372,14 +382,17 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 					mode = 1;
 					((TextView) findViewById(R.id.mode_text)).setText("PhotoStand");
 					((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
+					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.camera);
 				} else if (mode == 1) {
 					mode = 2;
 					((TextView) findViewById(R.id.mode_text)).setText("NewsStand");
 					((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
+					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.news_icon);
 				} else if (mode == 2) {
 					mode = 0;
 					((TextView) findViewById(R.id.mode_text)).setText("TwitterStand");
 					((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
+					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.ic_action_bird);
 				}
 				mRefresh.clearSavedLocation();
 				mapUpdateForce();
@@ -482,6 +495,23 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	
 	private void initRefresh() {
 		mRefresh = new Refresh(this);
+	}
+	
+	private void initSources() {
+		
+		if (feedSources == null) {
+			feedSources = new ArrayList<Source>();
+			/* Australia */
+			feedSources.add(new Source("Sydney Morning Herald", 11019, SourceType.FEED_SOURCE));
+			feedSources.add(new Source("The Age", 14003, SourceType.FEED_SOURCE));
+			feedSources.add(new Source("The Australian", 114711, SourceType.FEED_SOURCE));
+			/* Bahamas */
+			feedSources.add(new Source("The Nassau Guardian", 17937, SourceType.FEED_SOURCE));
+			/* United States */
+			feedSources.add(new Source("Associated Press", 11063, SourceType.FEED_SOURCE));
+			feedSources.add(new Source("Atlanta Journal-Constitution", 11770, SourceType.FEED_SOURCE));
+			feedSources.add(new Source("New York Times", 156, SourceType.FEED_SOURCE));
+		}
 	}
 	
 	@Override

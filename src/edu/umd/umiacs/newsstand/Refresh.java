@@ -1,6 +1,7 @@
 package edu.umd.umiacs.newsstand;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -17,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Overlay;
+
+import android.graphics.Rect;
 
 import edu.umd.umiacs.newsstand.MarkerOverlay.MarkerOverlayItem;
 
@@ -162,6 +166,7 @@ public class Refresh implements Runnable {
 		
 		Log.i("feed url", marker_url);
 		
+		
 		return getFeed(marker_url);
 	}
 
@@ -171,25 +176,25 @@ public class Refresh implements Runnable {
 		} else {
 			String topics = ""; 
 			if (_settingPrefs.getString("general_topics", "false").equals("true")) {
-				topics += "'General',";
+				topics += "General,";
 			}
 			if (_settingPrefs.getString("business_topics", "false").equals("true")) {
-				topics += "'Business',";
+				topics += "Business,";
 			}
 			if (_settingPrefs.getString("scitech_topics", "false").equals("true")) {
-				topics += "'SciTech',";
+				topics += "SciTech,";
 			}
 			if (_settingPrefs.getString("entertainment_topics", "false").equals("true")) {
-				topics += "'Entertainment',";
+				topics += "Entertainment,";
 			}
 			if (_settingPrefs.getString("health_topics", "false").equals("true")) {
-				topics += "'Health',";
+				topics += "Health,";
 			}
 			if (_settingPrefs.getString("sports_topics", "false").equals("true")) {
-				topics += "'Sports',";
+				topics += "Sports,";
 			}
 			if (topics.length() > 0) {
-				return String.format("&cat=(%s)", topics.substring(0, topics.length()-1));
+				return String.format("&cat=%s", topics.substring(0, topics.length()-1));
 			}
 		}
 		return "";
@@ -416,6 +421,16 @@ public class Refresh implements Runnable {
 				itemizedoverlay.addOverlay(overlayitem, _resources.getDrawable(my_marker));
 			}
 		} else {
+			ArrayList<Rect> boundingRects = new ArrayList<Rect>();
+			Paint paint = new Paint();
+			Rect textBounds = new Rect();
+			
+			paint.setTextSize(26);
+			paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+			
+			int text_height = 0;
+			int text_width = 0;
+			
 			for (int i = 0; i < feed.getMarkerCount(); i++) {
 				MarkerInfo cur_marker = feed.getMarker(i);
 				GeoPoint point = new GeoPoint(
@@ -432,8 +447,36 @@ public class Refresh implements Runnable {
 				else {	// disease or people layer
 					marker_text = cur_marker.getKeyword();
 			 	}
-				MarkerOverlayText textOverlay = new MarkerOverlayText(marker_text);
-				itemizedoverlay.addOverlay(overlayitem, textOverlay);
+				
+				paint.getTextBounds(marker_text, 0, marker_text.length(), textBounds);
+				text_height = textBounds.height();
+				text_width = textBounds.width();
+				
+				Point pointOnScreen = _mapView.getProjection().toPixels(point, null);
+				
+				
+				
+				Rect textRect = new Rect(pointOnScreen.x - text_width/2, 
+										 pointOnScreen.y - text_height/2,
+										 pointOnScreen.x + text_width/2,
+										 pointOnScreen.y + text_height/2); 
+				
+				Log.i("The Rect: " + marker_text, "Rect:" + textRect.left + " " + textRect.top + 
+						" " + textRect.bottom + " " + textRect.right);
+				boolean intersects = false;
+				for (Rect currentRect : boundingRects) {
+					if (Rect.intersects(textRect, currentRect)) {
+						intersects = true;
+						Log.i("Intersect", "HOORAH");
+						break;
+					}
+				}
+				
+				if (!intersects) {
+					MarkerOverlayText textOverlay = new MarkerOverlayText(marker_text);
+					itemizedoverlay.addOverlay(overlayitem, textOverlay);
+					boundingRects.add(textRect);
+				}
 			}
 
 		} 
@@ -549,9 +592,11 @@ public class Refresh implements Runnable {
 			_text = text;
 			_paint = new Paint();
 			_paint.setAlpha(255);
-			_paint.setTextSize(18);
+			_paint.setTextSize(26);
 			_paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+			//_paint.setColor(_ctx.getResources().getColor(R.color.dark_green));
 			_paint.setColor(Color.RED);
+			//_paint.setShadowLayer(1, 1, 1, R.color.dark_green);
 			_paint.setTextAlign(Align.CENTER);
 			
 			this.setVisible(true, false);
@@ -587,11 +632,11 @@ public class Refresh implements Runnable {
 		
 		@Override
 		public boolean setVisible(boolean visible, boolean restart){
-			if(visible)
+			if(visible) {
 				_paint.setAlpha(255);
-			else
+			} else {
 				_paint.setAlpha(0);
-			
+			}
 			if(restart)
 				this.invalidateSelf();
 			return true;
