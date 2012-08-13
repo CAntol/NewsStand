@@ -5,4 +5,5 @@
     <string name="in_label">Add name to database</string>
     <string name="out_label">Current database contents</string>
     <string name="search_hint">Search news stories</string>
+    <string name="feed_sources">News Feeds</string>
 </resources>

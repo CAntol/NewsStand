@@ -11,12 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Sources extends Activity{
+public class Sources extends Activity implements On{
 
 		SharedPreferences prefs;
 		SharedPreferences.Editor editor;
 	
-	   @Override
+		private ArrayList<Source> feed_sources = new ArrayList<Source>();
+		
+	   
+	@Override
+	@SuppressWarnings("unchecked")
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.sources);
@@ -27,20 +31,8 @@ public class Sources extends Activity{
 	        
 	        Bundle extras = getIntent().getExtras();
 	        if (extras != null) {
-	        	@SuppressWarnings("unchecked")
-				ArrayList<Source> feedSources = (ArrayList<Source>)extras.get("feedSources");
-	        	ArrayList<String> sourceNames = new ArrayList<String>();
-
-	        	for (int i = 0; i < feedSources.size(); i++) {
-	        		sourceNames.add(feedSources.get(i).get_name());
-	        	}   	
-	        	
-	        	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-	        			android.R.layout.simple_list_item_1, sourceNames);
-	        	
-	        	if (adapter != null) {
-	        		feedListView.setAdapter(adapter);
-	        	}	
+	        	this.feed_sources = (ArrayList<Source>)extras.get("feedSources");
+	        	feedListView.setAdapter(new SourceAdapter());
 	        }
 
 	        
@@ -48,6 +40,14 @@ public class Sources extends Activity{
 	      //  editor = prefs.edit();
 	    }
 
+	   	private ArrayList<String> getFeedSourceNames () {
+	   		ArrayList<String> feedNames = new ArrayList<String>();
+	   		for (int i = 0; i < feed_sources.size(); i++) {
+	   			feedNames.add(feed_sources.get(i).get_name());
+	   		}
+	   		return feedNames;
+	   	}
+	   
 	    @Override
 	    public void onResume() {
 	        super.onResume();
@@ -58,10 +58,21 @@ public class Sources extends Activity{
 	        super.onPause();
 	    }
 	
+
+	    
 	public void onBackPressed() {
 		super.onBackPressed();
+		
+		
+		
 		if (getIntent().getBooleanExtra("ts", false))
 			Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show();
+	}
+	
+	class SourceAdapter extends ArrayAdapter<String> {
+		SourceAdapter() {
+			super(Sources.this, R.layout.sources_row, R.id.source_label, getFeedSourceNames());
+		}
 	}
 
 }

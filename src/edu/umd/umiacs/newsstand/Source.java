@@ -22,12 +22,14 @@ public class Source implements Serializable {
 	private boolean _selected = false;
 	private int _num_docs = 0;
 	
+	public Source () {}
+	
 	public Source (String name, int feed_link, SourceType sourceType) {
 		this.set_name(name);
 		this.set_feed_link(feed_link);
 		this.set_sourceType(sourceType);
 	}
-
+	
 	public String get_name() {
 		return _name;
 	}
