@@ -174,12 +174,13 @@
 		     android:layout_width="48dp"
 		     android:layout_height="match_parent"
 		     android:background="@android:color/transparent"-->
-		 <ImageButton android:id="@+id/buttonInfo"
+		 <ImageButton android:id="@+id/botFirstItem"
 		     android:src="@drawable/new_info"
-		     android:layout_width="48dp"
+		     android:layout_width="53dp"
 		     android:layout_height="match_parent"
 		     android:background="@android:color/transparent" />
-		 <TextView android:layout_height="wrap_content"
+		 <TextView android:id="@+id/botFirstItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="Info" 
 		     android:textSize="10dp"
@@ -188,12 +189,13 @@
 		 <LinearLayout android:layout_height="wrap_content"
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
-		 <ImageButton android:id="@+id/buttonSearch"
+		 <ImageButton android:id="@+id/botSecondItem"
 		     android:src="@drawable/new_search"
 		     android:layout_width="53dp"
 		     android:layout_height="30dp"
 		     android:background="@android:color/transparent"></ImageButton>
-		 <TextView android:layout_height="wrap_content"
+		 <TextView android:id="@+id/botSecondItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="Search" 
 		     android:textSize="10dp"
@@ -202,11 +204,12 @@
 		 <LinearLayout android:layout_height="wrap_content"
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
-		 <ImageButton android:id="@+id/buttonSetting"
+		 <ImageButton android:id="@+id/botThirdItem"
 		     android:src="@drawable/ic_menu_settings1" android:layout_width="53dp"
 		     android:layout_height="match_parent"
 		     android:background="@android:color/transparent"></ImageButton>
-		 <TextView android:layout_height="wrap_content"
+		 <TextView android:id="@+id/botThirdItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="Settings"
 		     android:textSize="10dp"
@@ -215,10 +218,11 @@
 		 <LinearLayout android:layout_height="wrap_content"
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
-		 <ImageButton android:id="@+id/buttonSource"
+		 <ImageButton android:id="@+id/botFourthItem"
 		     android:src="@drawable/ic_menu_source" android:layout_width="53dp"
 		     android:layout_height="match_parent" android:background="@android:color/transparent"></ImageButton>
-		 <TextView android:layout_height="wrap_content"
+		 <TextView android:id="@+id/botFourthItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="Sources" 
 		     android:textSize="10dp"
@@ -227,12 +231,12 @@
 		 <LinearLayout android:layout_height="wrap_content"
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
-		 <ImageButton android:id="@+id/buttonMode" android:src="@drawable/ic_action_bird"
+		 <ImageButton android:id="@+id/botFifthItem" android:src="@drawable/ic_action_bird"
 		     android:layout_width="58dp"
 		      android:layout_height="match_parent"
 		      android:background="@android:color/transparent"></ImageButton>
-		 <TextView android:layout_height="wrap_content"
-		     android:id="@+id/mode_text"
+		 <TextView android:id="@+id/botFifthItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="TwitterStand"
 		     android:textSize="10dp"
@@ -241,11 +245,12 @@
 		 <LinearLayout android:layout_height="wrap_content"
        		android:layout_width="wrap_content"
        		android:orientation="vertical">
-		 <ImageButton android:id="@+id/buttonTopStory" android:src="@drawable/ic_menu_topstory"
+		 <ImageButton android:id="@+id/botSixthItem" android:src="@drawable/ic_menu_topstory"
 		     android:layout_width="53dp"
 		     android:layout_height="match_parent"
 		     android:background="@android:color/transparent"></ImageButton>
-		 <TextView android:layout_height="wrap_content"
+		 <TextView android:id="@+id/botSixthItemText"
+		     android:layout_height="wrap_content"
 		     android:layout_width="fill_parent"
 		     android:text="Top Stories" 
 		     android:textSize="10dp"

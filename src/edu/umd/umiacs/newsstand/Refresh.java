@@ -144,7 +144,7 @@ public class Refresh implements Runnable {
 		marker_url += sourceQuery();
 		
 		// rankParam - 
-		marker_url += rankQuery();
+		//marker_url += rankQuery();
 
 		// layerParam - total four layers
 		marker_url += layerQuery();
@@ -224,85 +224,30 @@ public class Refresh implements Runnable {
 		return "";
 	}
 	
-	private String sourceQuery(){
-		//TODO 
+	private String sourceQuery() {
 		String result = "";
-/*		boolean defaultSource = true;
+		ArrayList<Source> feedSources = _ctx.getFeedSources();
 		
-		if(_sourcePrefs.getBoolean("new_york_time", false))
-			result += "";
-		else
-			defaultSource = false;
-
-		if(_sourcePrefs.getBoolean("washington_post", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("usa_today", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("wall_street_journal", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("la_times", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("boston_globe", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("new_york_time", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("miami_herald", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("atlanta", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("guardian", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("times_online", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("haaretz", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("irish_independent", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("uk_independent", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("iht", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("reuters", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("associated_press", false))
-			result += "";
-		else
-			defaultSource = false;
-		if(_sourcePrefs.getBoolean("times_of_india", false))
-			result += "";
-		else
-			defaultSource = false;
-		*/
+		System.out.println("feedSource count " + feedSources.size());
+		
+		boolean first = true;
+		
+		for(Source curr_source : feedSources) {
+			if (curr_source.is_selected()) {
+				System.out.println("SELECTED !!! " + curr_source.get_name());
+				if (first) {
+					result = "&feedlinks=" + curr_source.get_feed_link();
+					first = false;
+				} else {
+					result += "," + curr_source.get_feed_link();
+				}
+			} else {
+				System.out.println("not " + curr_source.get_name());
+			}
+		}
+		
+		System.out.println(result);
+		
 		return result;
 	}
 	

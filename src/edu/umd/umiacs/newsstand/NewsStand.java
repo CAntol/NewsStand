@@ -1,8 +1,10 @@
 package edu.umd.umiacs.newsstand;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -10,6 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -34,7 +40,7 @@ import com.google.android.maps.Overlay;
 import edu.umd.umiacs.newsstand.Source.SourceType;
 
 
-public class NewsStand extends MapActivity implements View.OnClickListener {
+public class NewsStand extends MapActivity implements View.OnClickListener, Serializable, SensorEventListener {
 	private SharedPreferences mPrefsSetting;
 	private SharedPreferences mPrefsSources;
 	private NewsStandMapView mMapView;
@@ -49,12 +55,19 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	private ImageButton mButtonMinus;
 	private ImageButton mButtonPlus;
 	private ImageButton mButtonRefresh;
-	private ImageButton mButtonInfo;
-	private ImageButton mButtonSearch;
-	private ImageButton mButtonSetting;
-	private ImageButton mButtonSource;
-	private ImageButton mButtonMode;
-	private ImageButton mButtonTopStory;
+	private ImageButton botFirstItem;
+	private ImageButton botSecondItem;
+	private ImageButton botThirdItem;
+	private ImageButton botFourthItem;
+	private ImageButton botFifthItem;
+	private ImageButton botSixthItem;
+	
+	private TextView botFirstItemText;
+	private TextView botSecondItemText;
+	private TextView botThirdItemText;
+	private TextView botFourthItemText;
+	private TextView botFifthItemText;
+	private TextView botSixthItemText;
 	
 	public String mSearchQuery;
 	private LinearLayout mSearchLayout;
@@ -68,6 +81,15 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 	public final static int PHOTOSTAND = 2;
 	
 	private ArrayList<Source> feedSources;
+	
+	//Accelerometer
+	private float lastX, lastY, lastZ;
+	private boolean sensorInitialized;
+	private SensorManager sensorManager;
+	private Sensor accelerometer;
+	private final float NOISE = (float) 2.0;
+	
+	private final static int SOURCES_RESULT = 12;
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -107,6 +129,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		//initButtons();
 		initPopupPanel();
 		initSources();
+		initAccelerometer();
 		
 		// handle search requests
 		handleIntent(getIntent());
@@ -207,6 +230,14 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		mPrefsSources = getSharedPreferences("sources", 0);
 	}
 	
+	public ArrayList<Source> getFeedSources() {
+		return feedSources;
+	}
+	
+	public void setFeedSources(ArrayList<Source> list) {
+		feedSources = list;
+	}
+	
 	@Override
 	public void onNewIntent(Intent intent) {
 		setIntent(intent);
@@ -221,6 +252,7 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -229,13 +261,20 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		initMapView();
 		//refresh the preferences incase they were changed
 		
-		
 		initOneHand();
 		initButtons();
 		
 		//redraw
 		mRefresh.clearSavedLocation();
 		mapUpdateForce();
+		
+		//Accelerometer
+	//	sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	}
+	
+	protected void onPause() {
+		super.onPause();
+//		sensorManager.unregisterListener(this);
 	}
 	
 	/** Delayed call to map refresh function.
@@ -326,145 +365,264 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 			
 		});
 		
-		mButtonInfo = (ImageButton) findViewById(R.id.buttonInfo);
-		mButtonInfo.setOnClickListener(new OnClickListener(){
+		botFirstItem = (ImageButton) findViewById(R.id.botFirstItem);
+		botFirstItemText = (TextView) findViewById(R.id.botFirstItemText);
+		botFirstItem.setOnClickListener(new OnClickListener(){
 			
 			@Override
 			public void onClick(View v) {
-				Intent l = new Intent(v.getContext(), NewsStandWebView.class);
-				l = l.putExtra("url", "http://www.cs.umd.edu/~hjs/newsstand-first-page.html");
-				startActivity(l);
-			}
-			
-		});
-		
-		mButtonSearch = (ImageButton) findViewById(R.id.buttonSearch);
-		mButtonSearch.setOnClickListener(new OnClickListener(){
-			
-			@Override
-			public void onClick(View v) {
-				onSearchRequested();
-			}
-			
-		});
-		
-		mButtonSetting = (ImageButton) findViewById(R.id.buttonSetting);
-		mButtonSetting.setOnClickListener(new OnClickListener(){
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(v.getContext(), Settings.class);
-				i.putExtra("ts", false);
-				startActivity(i);
-			}
-			
-		});
-		
-		mButtonSource = (ImageButton) findViewById(R.id.buttonSource);
-		mButtonSource.setOnClickListener(new OnClickListener(){
-			
-			@Override
-			public void onClick(View v) {
-				Intent j = new Intent(v.getContext(), Sources.class);
-				j.putExtra("ts", false);
-				j.putExtra("feedSources", feedSources);
-				startActivity(j);
-			}
-			
-		});
-		mButtonMode = (ImageButton) findViewById(R.id.buttonMode);
-		mButtonMode.setOnClickListener(new OnClickListener(){
-		
-			@Override
-			public void onClick(View v) {
-				//Toast.makeText(getContext(), "Mode toggle not yet functional", Toast.LENGTH_SHORT).show();
-				if (mode == 0) {
-					mode = 1;
-					((TextView) findViewById(R.id.mode_text)).setText("PhotoStand");
-					((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
-					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.camera);
-				} else if (mode == 1) {
-					mode = 2;
-					((TextView) findViewById(R.id.mode_text)).setText("NewsStand");
-					((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
-					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.news_icon);
-				} else if (mode == 2) {
-					mode = 0;
-					((TextView) findViewById(R.id.mode_text)).setText("TwitterStand");
-					((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
-					((ImageButton) findViewById(R.id.buttonMode)).setImageResource(R.drawable.ic_action_bird);
+				Intent intent;
+				
+				//Info Neutral/Left ... Top Stories Right
+				
+				System.out.println("Button 1 one hand: " + oneHand);
+				if (oneHand != 2) {
+					intent = new Intent(v.getContext(), NewsStandWebView.class);
+					intent = intent.putExtra("url", "http://www.cs.umd.edu/~hjs/newsstand-first-page.html");
+				} else {
+					if (mPanel != null && mRefresh != null)
+						mPanel.hide();
+					
+					mMapView.updateMapWindow();
+					intent = new Intent(v.getContext(), TopStories.class);
+					
+					intent.putExtra("mode", mode);
 				}
-				mRefresh.clearSavedLocation();
-				mapUpdateForce();
+				startActivity(intent);
 			}
-		
+			
 		});
 		
-		mButtonTopStory = (ImageButton) findViewById(R.id.buttonTopStory);
-		mButtonTopStory.setOnClickListener(new OnClickListener(){
+		botSecondItem = (ImageButton) findViewById(R.id.botSecondItem);
+		botSecondItemText = (TextView) findViewById(R.id.botSecondItemText);
+		botSecondItem.setOnClickListener(new OnClickListener(){
 			
 			@Override
 			public void onClick(View v) {
 				
-				//hide any open popup panel
-				if (mPanel != null && mRefresh != null)
-					mPanel.hide();
-				
-				mMapView.updateMapWindow();
-				Intent k = new Intent(v.getContext(), TopStories.class);
-				//Toast.makeText(getContext(), "Loading..", Toast.LENGTH_SHORT).show();
-				k.putExtra("mode", mode);
-				startActivity(k);
+				//Search Neutral/Left ... Mode Right
+				if (oneHand != 2) {
+					onSearchRequested();
+				} else {
+					View modeItem = findViewById(R.id.botSecondItem);
+					View modeText = findViewById(R.id.botSecondItemText);
+
+					if (mode == 0) {
+						mode = 1;
+						((ImageButton) modeItem).setImageResource(R.drawable.camera);
+						((TextView) modeText).setText("PhotoStand");
+						((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
+					} else if (mode == 1) {
+						mode = 2;
+						((ImageButton) modeItem).setImageResource(R.drawable.news_icon);
+						((TextView) modeText).setText("NewsStand");
+						((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
+					} else if (mode == 2) {
+						mode = 0;
+						((ImageButton) modeItem).setImageResource(R.drawable.ic_action_bird);
+						((TextView) modeText).setText("TwitterSstand");
+						((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
+					}
+					mRefresh.clearSavedLocation();
+					mapUpdateForce();
+				}
 			}
 			
 		});
 		
-		RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+		botThirdItem = (ImageButton) findViewById(R.id.botThirdItem);
+		botThirdItemText = (TextView) findViewById(R.id.botThirdItemText);
+		botThirdItem.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent;
+				
+				// Settings Neutral/Left ... Sources Right
+				if (oneHand != 2) {
+					intent = new Intent(v.getContext(), Settings.class);
+					intent.putExtra("ts", false);
+					startActivity(intent);
+				} else {
+					intent = new Intent(v.getContext(), Sources.class);
+					intent.putExtra("ts", false);
+					intent.putExtra("feedSources", feedSources);
+					startActivityForResult(intent, NewsStand.SOURCES_RESULT);
+				}
+			}
+			
+		});
 		
-		RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80,80);
-		RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(80,80);
-		RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(80,80);
-		if (oneHand == 0){
-			params1.leftMargin = params1.topMargin = 0;
-			rl.removeView(mButtonRefresh);
-			rl.addView(mButtonRefresh, params1);
-			//params2.leftMargin = 400;
-			params2.leftMargin = screenWidth-50;
-			params2.topMargin = 0;
-			rl.removeView(mButtonPlus);
-			rl.addView(mButtonPlus, params2);
-			//params3.leftMargin = 400;
-			params3.leftMargin = screenWidth-50;
-			params3.topMargin = 100;
-			rl.removeView(mButtonMinus);
-			rl.addView(mButtonMinus,params3);
-		}else if (oneHand == 1){
-			params1.leftMargin = params1.topMargin = 0;
-			rl.removeView(mButtonRefresh);
-			rl.addView(mButtonRefresh, params1);
-			params2.leftMargin = 350;
-			params2.topMargin = 0;
-			rl.removeView(mButtonPlus);
-			rl.addView(mButtonPlus, params2);
-			params3.leftMargin = 400;
-			params3.topMargin = 100;
-			rl.removeView(mButtonMinus);
-			rl.addView(mButtonMinus,params3);
+		botFourthItem = (ImageButton) findViewById(R.id.botFourthItem);
+		botFourthItemText = (TextView) findViewById(R.id.botFourthItemText);
+		botFourthItem.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent;
+				
+				// Settings Neutral/Left ... Sources Right
+				if (oneHand != 2) {
+					intent = new Intent(v.getContext(), Sources.class);
+					intent.putExtra("ts", false);
+					intent.putExtra("feedSources", feedSources);
+					startActivityForResult(intent, NewsStand.SOURCES_RESULT);
+				} else {
+					intent = new Intent(v.getContext(), Settings.class);
+					intent.putExtra("ts", false);
+					startActivity(intent);
+				}
+			}
+			
+		});
+		botFifthItem = (ImageButton) findViewById(R.id.botFifthItem);
+		botFifthItemText = (TextView) findViewById(R.id.botFifthItemText);
+		botFifthItem.setOnClickListener(new OnClickListener(){
+		
+			@Override
+			public void onClick(View v) {
+				
+				//Mode Neutral/Left ... Search Right
+				if (oneHand != 2) {
+					View modeItem = findViewById(R.id.botFifthItem);
+					View modeText = findViewById(R.id.botFifthItemText);
+
+					if (mode == 0) {
+						mode = 1;
+						((ImageButton) modeItem).setImageResource(R.drawable.camera);
+						((TextView) modeText).setText("PhotoStand");
+						((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
+					} else if (mode == 1) {
+						mode = 2;
+						((ImageButton) modeItem).setImageResource(R.drawable.news_icon);
+						((TextView) modeText).setText("NewsStand");
+						((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
+					} else if (mode == 2) {
+						mode = 0;
+						((ImageButton) modeItem).setImageResource(R.drawable.ic_action_bird);
+						((TextView) modeText).setText("TwitterSstand");
+						((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
+					}
+					mRefresh.clearSavedLocation();
+					mapUpdateForce();
+				} else {
+					onSearchRequested();
+				}
+			}
+		
+		});
+		
+		botSixthItem = (ImageButton) findViewById(R.id.botSixthItem);
+		botSixthItemText = (TextView) findViewById(R.id.botSixthItemText);
+		botSixthItem.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent;
+				
+				//Top Stories Neutral/Left ... Info Right
+				if (oneHand != 2) {
+					if (mPanel != null && mRefresh != null)
+						mPanel.hide();
+					
+					mMapView.updateMapWindow();
+					intent = new Intent(v.getContext(), TopStories.class);
+					
+					intent.putExtra("mode", mode);
+				} else {	
+					intent = new Intent(v.getContext(), NewsStandWebView.class);
+					intent = intent.putExtra("url", "http://www.cs.umd.edu/~hjs/newsstand-first-page.html");
+				}
+				startActivity(intent);
+			}
+			
+		});
+		
+		View modeItem;
+		View modeText;
+		
+		
+		if (oneHand != 2) {
+			botFirstItem.setImageResource(R.drawable.new_info);
+			botFirstItemText.setText("Info");
+			botSecondItem.setImageResource(R.drawable.new_search);
+			botSecondItemText.setText("Search");
+			botThirdItem.setImageResource(R.drawable.ic_menu_settings1);
+			botThirdItemText.setText("Settings");
+			botFourthItem.setImageResource(R.drawable.ic_menu_source);
+			botFourthItemText.setText("Sources");
+			modeItem = findViewById(R.id.botFifthItem);
+			modeText = findViewById(R.id.botFifthItemText);
+			botSixthItem.setImageResource(R.drawable.ic_menu_topstory);
+			botSixthItemText.setText("Top Stories");
 		} else {
-			params1.leftMargin = 400;
-			params1.topMargin = 0;
-			rl.removeView(mButtonRefresh);
-			rl.addView(mButtonRefresh, params1);
-			params2.leftMargin = 50;
-			params2.topMargin = 0;
-			rl.removeView(mButtonPlus);
-			rl.addView(mButtonPlus, params2);
-			params3.leftMargin = 0;
-			params3.topMargin = 100;
-			rl.removeView(mButtonMinus);
-			rl.addView(mButtonMinus,params3);
+			botFirstItem.setImageResource(R.drawable.ic_menu_topstory);
+			botFirstItemText.setText("Top Stories");
+			modeItem = findViewById(R.id.botSecondItem);
+			modeText = findViewById(R.id.botSecondItemText);
+			botThirdItem.setImageResource(R.drawable.ic_menu_source);
+			botThirdItemText.setText("Sources");
+			botFourthItem.setImageResource(R.drawable.ic_menu_settings1);
+			botFourthItemText.setText("Settings");
+			botFifthItem.setImageResource(R.drawable.new_search);
+			botFifthItemText.setText("Search");
+			botSixthItem.setImageResource(R.drawable.new_info);
+			botSixthItemText.setText("Info");
+		}
+
+		if (mode == 0) {
+			mode = 1;
+			((ImageButton) modeItem).setImageResource(R.drawable.camera);
+			((TextView) modeText).setText("PhotoStand");
+			((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
+		} else if (mode == 1) {
+			mode = 2;
+			((ImageButton) modeItem).setImageResource(R.drawable.news_icon);
+			((TextView) modeText).setText("NewsStand");
+			((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
+		} else if (mode == 2) {
+			mode = 0;
+			((ImageButton) modeItem).setImageResource(R.drawable.ic_action_bird);
+			((TextView) modeText).setText("TwitterSstand");
+			((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
+		}
+		mRefresh.clearSavedLocation();
+		mapUpdateForce();
+		 
+		RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+		
+		RelativeLayout.LayoutParams refreshParams = new RelativeLayout.LayoutParams(80,80);
+		RelativeLayout.LayoutParams plusParams = new RelativeLayout.LayoutParams(80,80);
+		RelativeLayout.LayoutParams minusParams = new RelativeLayout.LayoutParams(80,80);
+		
+		if (oneHand == 0){
+			refreshParams.leftMargin = 0;
+			refreshParams.topMargin = 0;
+			plusParams.leftMargin = screenWidth-50;
+			plusParams.topMargin = 0;
+			minusParams.leftMargin = screenWidth-50;
+			minusParams.topMargin = 100;
+		}else if (oneHand == 1){
+			refreshParams.leftMargin = refreshParams.topMargin = 0;
+			plusParams.leftMargin = 350;
+			plusParams.topMargin = 0;
+			minusParams.leftMargin = 400;
+			minusParams.topMargin = 100;
+		} else {
+			refreshParams.leftMargin = 400;
+			refreshParams.topMargin = 0;
+			plusParams.leftMargin = 50;
+			plusParams.topMargin = 0;
+			minusParams.leftMargin = 0;
+			minusParams.topMargin = 100;
 		}
 		
+		relativeLayout.removeView(mButtonRefresh);
+		relativeLayout.addView(mButtonRefresh, refreshParams);
+		relativeLayout.removeView(mButtonPlus);
+		relativeLayout.addView(mButtonPlus, plusParams);
+		relativeLayout.removeView(mButtonMinus);
+		relativeLayout.addView(mButtonMinus, minusParams);
 	}
 	
 	private void initSlider() {
@@ -514,6 +672,16 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		}
 	}
 	
+	private void initAccelerometer() {
+		sensorInitialized = false;
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		sensorInitialized = true;
+	}
+	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return false;
@@ -521,6 +689,23 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 //		inflater.inflate(R.menu.main_menu, menu);
 //		return true;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+	    super.onActivityResult(requestCode, resultCode, intent);
+	    	
+	    if (requestCode == SOURCES_RESULT) {
+	    	if (resultCode == Activity.RESULT_OK) {
+	    		Bundle extras = intent.getExtras();
+	    		if (extras != null) {
+	    			if (extras.get("feedSources") != null)
+	    				feedSources = (ArrayList<Source>)extras.get("feedSources");
+	    		}
+	    	}
+	    }
+
+	}	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -648,54 +833,113 @@ public class NewsStand extends MapActivity implements View.OnClickListener {
 		
 		if (oneHandNew != oneHand)
 		{
-			RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+			oneHand = oneHandNew;
 			
-			RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80,80);
-			RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(80,80);
-			RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(80,80);
+			RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayoutButton);
+			
+			RelativeLayout.LayoutParams refreshParams = new RelativeLayout.LayoutParams(80,80);
+			RelativeLayout.LayoutParams plusParams = new RelativeLayout.LayoutParams(80,80);
+			RelativeLayout.LayoutParams minusParams = new RelativeLayout.LayoutParams(80,80);
+			
+			View modeItem = null;
+			View modeText = null;
+
 			if (oneHand == 0){
-				params1.leftMargin = params1.topMargin = 0;
-				rl.removeView(mButtonRefresh);
-				rl.addView(mButtonRefresh, params1);
-				//params2.leftMargin = 400;
-				params2.leftMargin = screenWidth-50;
-				params2.topMargin = 0;
-				rl.removeView(mButtonPlus);
-				rl.addView(mButtonPlus, params2);
-				//params3.leftMargin = 400;
-				params3.leftMargin = screenWidth-50;
-				params3.topMargin = 100;
-				rl.removeView(mButtonMinus);
-				rl.addView(mButtonMinus,params3);
+				refreshParams.leftMargin = 0;
+				refreshParams.topMargin = 0;
+				plusParams.leftMargin = screenWidth-50;
+				plusParams.topMargin = 0;
+				minusParams.leftMargin = screenWidth-50;
+				minusParams.topMargin = 100;
 			}else if (oneHand == 1){
-				params1.leftMargin = params1.topMargin = 0;
-				rl.removeView(mButtonRefresh);
-				rl.addView(mButtonRefresh, params1);
-				params2.leftMargin = 350;
-				params2.topMargin = 0;
-				rl.removeView(mButtonPlus);
-				rl.addView(mButtonPlus, params2);
-				params3.leftMargin = 400;
-				params3.topMargin = 100;
-				rl.removeView(mButtonMinus);
-				rl.addView(mButtonMinus,params3);
+				refreshParams.leftMargin = refreshParams.topMargin = 0;
+				plusParams.leftMargin = 350;
+				plusParams.topMargin = 0;
+				minusParams.leftMargin = 400;
+				minusParams.topMargin = 100;
 			} else {
-				params1.leftMargin = 400;
-				params1.topMargin = 0;
-				rl.removeView(mButtonRefresh);
-				rl.addView(mButtonRefresh, params1);
-				params2.leftMargin = 50;
-				params2.topMargin = 0;
-				rl.removeView(mButtonPlus);
-				rl.addView(mButtonPlus, params2);
-				params3.leftMargin = 0;
-				params3.topMargin = 100;
-				rl.removeView(mButtonMinus);
-				rl.addView(mButtonMinus,params3);
+				refreshParams.leftMargin = 400;
+				refreshParams.topMargin = 0;
+				plusParams.leftMargin = 50;
+				plusParams.topMargin = 0;
+				minusParams.leftMargin = 0;
+				minusParams.topMargin = 100;
 			}
 			
-			oneHand = oneHandNew;
+			relativeLayout.removeView(mButtonRefresh);
+			relativeLayout.addView(mButtonRefresh, refreshParams);
+			relativeLayout.removeView(mButtonPlus);
+			relativeLayout.addView(mButtonPlus, plusParams);
+			relativeLayout.removeView(mButtonMinus);
+			relativeLayout.addView(mButtonMinus, minusParams);
+			
+			if (oneHand != 2) {
+				botFirstItem.setImageResource(R.drawable.new_info);
+				botFirstItemText.setText("Info");
+				botSecondItem.setImageResource(R.drawable.new_search);
+				botSecondItemText.setText("Search");
+				botThirdItem.setImageResource(R.drawable.ic_menu_settings1);
+				botThirdItemText.setText("Settings");
+				botFourthItem.setImageResource(R.drawable.ic_menu_source);
+				botFourthItemText.setText("Sources");
+				modeItem = findViewById(R.id.botFifthItem);
+				modeText = findViewById(R.id.botFifthItemText);
+				botSixthItem.setImageResource(R.drawable.ic_menu_topstory);
+				botSixthItemText.setText("Top Stories");
+			} else {
+				botFirstItem.setImageResource(R.drawable.ic_menu_topstory);
+				botFirstItemText.setText("Top Stories");
+				modeItem = findViewById(R.id.botSecondItem);
+				modeText = findViewById(R.id.botSecondItemText);
+				botThirdItem.setImageResource(R.drawable.ic_menu_source);
+				botThirdItemText.setText("Sources");
+				botFourthItem.setImageResource(R.drawable.ic_menu_settings1);
+				botFourthItemText.setText("Settings");
+				botFifthItem.setImageResource(R.drawable.new_search);
+				botFifthItemText.setText("Search");
+				botSixthItem.setImageResource(R.drawable.new_info);
+				botSixthItemText.setText("Info");
+			}
+			
+			if (mode == 0) {
+				((ImageButton) modeItem).setImageResource(R.drawable.ic_action_bird);
+				((TextView) modeText).setText("TwitterStand");
+				((TextView) findViewById(R.id.current_mode)).setText("NewsStand");
+			} else if (mode == 1) {
+				((ImageButton) modeItem).setImageResource(R.drawable.camera);
+				((TextView) modeText).setText("PhotoStand");
+				((TextView) findViewById(R.id.current_mode)).setText("TwitterStand");
+			} else if (mode == 2) {
+				((ImageButton) modeItem).setImageResource(R.drawable.news_icon);
+				((TextView) modeText).setText("NewsStand");
+				((TextView) findViewById(R.id.current_mode)).setText("PhotoStand");
+			}
 		}
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		float x = event.values[0];
+		
+		if (x > 2.0) {
+			SharedPreferences.Editor editor = mPrefsSetting.edit();
+			editor.putString("one_handed", "1");
+			editor.commit();
+		} else if (x < -2.0){
+			SharedPreferences.Editor editor = mPrefsSetting.edit();
+			editor.putString("one_handed", "2");
+			editor.commit();	
+		}
+		
+		updateOneHand();
+		
+		
 	}
 	
 }
